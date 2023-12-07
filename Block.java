@@ -5,6 +5,7 @@ import javax.imageio.ImageIO;
 
 
 public class Block {
+    
     private int x;
     private int y;
     private int s; // s by s block
