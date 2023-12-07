@@ -7,32 +7,34 @@ import javax.imageio.ImageIO;
 import java.util.List;
 
 public class Player extends MovingThing {
-    private int speed;
+    private int ySpeed;
+    private int xSpeed;
   private Image image;
 
   public Player(int player)
   {
-    this(10,10,10,10,1, player);
+    this(10,10,10,10,1,1, player);
   }
 
   public Player(int x, int y, int player)
   {
     //add code here
-    this(x, y, 10, 10, 1, player);
+    this(x, y, 10, 10, 1, 1, player);
   }
 
-  public Player(int x, int y, int s, int player)
+  public Player(int x, int y, int ys, int xs, int player)
   {
     //add code here
-    this(x, y, 10, 10, s, player);
+    this(x, y, 10, 10, ys, xs, player);
     
   }
 
   // all ctors call this ctor
-  public Player(int x, int y, int w, int h, int s, int player)
+  public Player(int x, int y, int w, int h, int ys, int xs, int player)
   {
     super(x, y, w, h);
-    speed=s;
+    ySpeed = ys;
+    xSpeed = xs;
     if (player == 1) {
         try
         {
@@ -58,32 +60,44 @@ public class Player extends MovingThing {
   }
 
 
-  public void setSpeed(int s)
+  public void setYSpeed(int s)
   {
     //add more code
-    speed = s;
+    ySpeed = s;
   }
 
-  public int getSpeed()
+  public void setXSpeed(int s)
   {
-    return speed;
+    //add more code
+    xSpeed = s;
+  }
+
+  public int getYSpeed()
+  {
+    return ySpeed;
+  }
+
+  public int getXSpeed()
+  {
+    return xSpeed;
   }
 
   public void move(String direction)
   {
     //add code here
     if(direction.equals("LEFT")) {
-      setX(getX() - speed);
+      setX(getX() - xSpeed);
     }
     if(direction.equals("RIGHT")) {
-      setX(getX() + speed);
+      setX(getX() + xSpeed);
     }
-    if(direction.equals("TOP")) {
-      setY(getY() + speed);
+    if(direction.equals("DOWN")) {
+      setY(getY() + ySpeed);
     }
-    if(direction.equals("BOTTOM")) {
-      setY(getY() - speed);
+    if(direction.equals("UP")) {
+        setY(getY() - ySpeed);
     }
+
     
   }
 
@@ -94,7 +108,7 @@ public class Player extends MovingThing {
 
   public String toString()
   {
-    return super.toString() + getSpeed();
+    return super.toString();
   }
 
 }

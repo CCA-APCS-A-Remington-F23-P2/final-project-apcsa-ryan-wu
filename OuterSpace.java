@@ -29,8 +29,8 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
     keys = new boolean[8];
 
-    playerOne = new Player(50, 300, 20, 20, 2, 1);
-    playerTwo = new Player(400, 300, 20, 20, 2, 2);
+    playerOne = new Player(50, 480, 20, 20, 5, 5, 1);
+    playerTwo = new Player(400, 480, 20, 20, 5, 5, 2);
 
     this.addKeyListener(this);
     new Thread(this).start();
@@ -59,8 +59,8 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
     graphToBack.setColor(Color.BLACK);
     graphToBack.fillRect(0,0,800,600);
-    graphToBack.setColor(Color.BLUE);
-    graphToBack.drawString("StarFighter ", 25, 50 );
+    graphToBack.setColor(Color.GREEN);
+    graphToBack.fillRect(0, 500, 800, 100);
 
     playerOne.draw(graphToBack);
     playerTwo.draw(graphToBack);
@@ -76,11 +76,11 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
     }
     if (keys[2])
     {
-      playerOne.move("BOTTOM");
+      playerOne.move("UP");
     }
     if (keys[3])
     {
-      playerOne.move("TOP");
+      playerOne.move("DOWN");
     }
     if (keys[4])
     {
@@ -92,13 +92,12 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
     }
     if (keys[6])
     {
-      playerTwo.move("BOTTOM");
+      playerTwo.move("UP");
     }
     if (keys[7])
     {
-      playerTwo.move("TOP");
+      playerTwo.move("DOWN");
     }
-
 
     twoDGraph.drawImage(back, null, 0, 0);
   }
@@ -121,10 +120,6 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
     if (e.getKeyCode() == KeyEvent.VK_DOWN)
     {
       keys[3] = true;
-    }
-    if (e.getKeyCode() == KeyEvent.VK_SPACE)
-    {
-      keys[4] = true;
     }
     if (e.getKeyCode() == KeyEvent.VK_A)
     {
@@ -193,7 +188,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
     {
       while(true)
       {
-        Thread.currentThread().sleep(5);
+        Thread.currentThread().sleep(20);
         repaint();
       }
     }catch(Exception e)
