@@ -5,21 +5,30 @@ import javax.imageio.ImageIO;
 
 
 public class Block {
-    
+
     private int x;
     private int y;
     private int s; // s by s block
     private int h; // # hits to die
     private Image img;
+    private String type;
     
-    public Block(int x, int y){
+    public Block(int x, int y, String type){
         this.x = x;
         this.y = y;
         s = 20;
-        try{
-            URL url = getClass().getResource("BrownBlock.jpeg");
-            img = ImageIO.read(url);
-        } catch(Exception e){}
+        if(type.equals("wood")){
+            try{
+                URL url = getClass().getResource("BrownBlock.jpeg");
+                img = ImageIO.read(url);
+            } catch(Exception e){}
+        } else if(type.equals("metal")){
+            try{
+                URL url = getClass().getResource("GreyBlock.png");
+                img = ImageIO.read(url);
+            } catch(Exception e){}
+        }
+        
     }
     public int getX(){ return x; }
     public int getY(){ return y; }
