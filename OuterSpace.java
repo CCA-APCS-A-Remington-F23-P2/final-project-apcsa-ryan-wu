@@ -12,17 +12,6 @@ import java.util.ArrayList;
 
 public class OuterSpace extends Canvas implements KeyListener, Runnable
 {
-  private Ship ship;
-  private AlienHorde horde;
-  private Bullets shots;
-  private long lastShot = 0;
-  private long lastAlienShot = 0;
-  private long lastRow = 0;
-  private int score = 0;
-  private int lives = 3;
-  private boolean paused = false;
-  private boolean ended = false;
-
   /* uncomment once you are ready for this part
    *
    private AlienHorde horde;
@@ -37,9 +26,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
     setBackground(Color.black);
 
     keys = new boolean[5];
-    ship = new Ship(200, 500, 50, 50, 5);
-    horde = new AlienHorde(10);
-    shots = new Bullets();
+
     //instantiate other instance variables
     //Ship, Alien
 
@@ -56,16 +43,6 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
   public void paint( Graphics window )
   {
-    if (ended) {
-      return;
-    }
-    if (paused) {
-      if (keys[4]) {
-        paused = false;
-      } else {
-        return;
-      }
-    }
     //set up the double buffering to make the game animation nice and smooth
     Graphics2D twoDGraph = (Graphics2D)window;
 
@@ -82,70 +59,8 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
     graphToBack.drawString("StarFighter ", 25, 50 );
     graphToBack.setColor(Color.BLACK);
     graphToBack.fillRect(0,0,800,600);
-    graphToBack.setColor(Color.YELLOW);
 
-    score += horde.calcHits(shots.getList());
-    graphToBack.drawString("Score: " + score, 25, 50);
-    graphToBack.drawString("Lives: " + lives, 25, 75);
-
-    ship.draw(graphToBack);
-    horde.draw(graphToBack);
-    shots.draw(graphToBack);
-    
-    
-
-    if (keys[0])
-    {
-      ship.move("LEFT");
-    }
-    if (keys[1])
-    {
-      ship.move("RIGHT");
-    }
-    if (keys[2])
-    {
-      ship.move("BOTTOM");
-    }
-    if (keys[3])
-    {
-      ship.move("TOP");
-    }
-    if (keys[4]) {
-      if (System.currentTimeMillis() - lastShot > 250) {
-        shots.add(new Ammo(ship.getX() + 20, ship.getY() - 10, 6, 6, 4));
-        lastShot = System.currentTimeMillis();
-      }
-    if (System.currentTimeMillis() - lastAlienShot > 500) {
-      horde.move("DEFAULT");
-      lastAlienShot = System.currentTimeMillis();
-    }
-    }
-    if (System.currentTimeMillis()-lastAlienShot > 1000) {
-      shots.add(horde.randomShot());
-      lastAlienShot = System.currentTimeMillis();
-    }
-    if (System.currentTimeMillis() - lastRow > 3000) {
-      horde.addRow();
-      lastRow = System.currentTimeMillis();
-    }
-    if (horde.crashesShip(ship) || ship.isHit(shots.getList())) {
-      lives--;
-      paused = true;
-      keys[4] = false;
-      graphToBack.setColor(Color.RED);
-      graphToBack.drawString("Press space to continue", 500, 300);
-    }
     //add code to move Ship, Alien, etc.
-    horde.move("DOWN");
-    shots.move("DEFAULT");
-
-    if (lives == 0) {
-      ended = true;
-      graphToBack.setColor(Color.BLACK);
-      graphToBack.fillRect(0, 0, 1000, 1000);
-      graphToBack.setColor(Color.RED);
-      graphToBack.drawString("Game has ended. Final Score: " + score, 200, 200);
-    }
 
 
     //add in collision detection to see if Bullets hit the Aliens and if Bullets hit the Ship
@@ -216,7 +131,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
     {
       while(true)
       {
-        Thread.currentThread().sleep(30);
+        Thread.currentThread().sleep(5);
         repaint();
       }
     }catch(Exception e)

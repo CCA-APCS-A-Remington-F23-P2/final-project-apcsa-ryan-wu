@@ -1,8 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public abstract class MovingThing implements Moveable
-{
+public abstract class MovingThing {
   private int xPos;
   private int yPos;
   private int width;
