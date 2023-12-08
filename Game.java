@@ -10,20 +10,16 @@ import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class OuterSpace extends Canvas implements KeyListener, Runnable
+public class Game extends Canvas implements KeyListener, Runnable
 {
-  /* uncomment once you are ready for this part
-   *
-   private AlienHorde horde;
-   private Bullets shots;
-  */
 
   private boolean[] keys;
   private BufferedImage back;
   private Player playerOne;
   private Player playerTwo;
+    private List<Block> blocks;
 
-  public OuterSpace()
+  public Game()
   {
     setBackground(Color.black);
 
@@ -31,6 +27,11 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
     playerOne = new Player(400, 480, 20, 20, 3, 3, 1);
     playerTwo = new Player(50, 480, 20, 20, 3, 5, 2);
+
+    keys = new boolean[8];
+    playerOne = new Player(50, 480, 20, 20, 3, 3, 1);
+    playerTwo = new Player(400, 480, 20, 20, 3, 5, 2);
+    blocks = new ArrayList<Block>();
 
     this.addKeyListener(this);
     new Thread(this).start();
