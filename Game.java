@@ -10,20 +10,15 @@ import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class OuterSpace extends Canvas implements KeyListener, Runnable
+public class Game extends Canvas implements KeyListener, Runnable
 {
-  /* uncomment once you are ready for this part
-   *
-   private AlienHorde horde;
-   private Bullets shots;
-  */
 
   private boolean[] keys;
   private BufferedImage back;
   private Player playerOne;
   private Player playerTwo;
 
-  public OuterSpace()
+  public Game()
   {
     setBackground(Color.black);
 

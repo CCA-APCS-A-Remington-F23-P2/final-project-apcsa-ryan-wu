@@ -1,17 +1,17 @@
 import javax.swing.JFrame;
 import java.awt.Component;
 
-public class StarFighter extends JFrame
+public class GameWindow extends JFrame
 {
   private static final int WIDTH = 800;
   private static final int HEIGHT = 600;
 
-  public StarFighter()
+  public GameWindow()
   {
-    super("STARFIGHTER");
+    super("GAME NAME HERE");
     setSize(WIDTH,HEIGHT);
 
-    OuterSpace theGame = new OuterSpace();
+    Game theGame = new Game();
     ((Component)theGame).setFocusable(true);
 
     getContentPane().add(theGame);
@@ -21,6 +21,6 @@ public class StarFighter extends JFrame
 
   public static void main( String args[] )
   {
-    StarFighter run = new StarFighter();
+    GameWindow run = new GameWindow();
   }
 }
