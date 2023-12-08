@@ -92,15 +92,26 @@ public class Player extends MovingThing {
       setX(getX() + xSpeed);
     }
     if(direction.equals("DOWN")) {
-      setY(getY() + ySpeed);
+      build();
     }
     if(direction.equals("UP")) {
-        setY(getY() - ySpeed);
+        jump();
     }
-
     
   }
-
+  
+  public boolean isFalling(){
+    return false; //need way to find if block is under player
+  }
+  public void jump(){
+    if(!isFalling()) 
+      setYSpeed(250);
+  }
+  public void build(){
+    if(isFalling()){
+      System.out.println("build"); //need way to find if block is under player
+    }
+  }
   public void draw( Graphics window )
   {
     window.drawImage(image,getX(),getY(),getWidth(),getHeight(),null);

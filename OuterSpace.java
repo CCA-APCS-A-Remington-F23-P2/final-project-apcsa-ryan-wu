@@ -29,8 +29,8 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
     keys = new boolean[8];
 
-    playerOne = new Player(50, 480, 20, 20, 3, 3, 1);
-    playerTwo = new Player(400, 480, 20, 20, 3, 5, 2);
+    playerOne = new Player(400, 480, 20, 20, 3, 3, 1);
+    playerTwo = new Player(50, 480, 20, 20, 3, 5, 2);
 
     this.addKeyListener(this);
     new Thread(this).start();
