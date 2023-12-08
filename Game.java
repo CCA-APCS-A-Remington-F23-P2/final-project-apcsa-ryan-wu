@@ -17,15 +17,16 @@ public class Game extends Canvas implements KeyListener, Runnable
   private BufferedImage back;
   private Player playerOne;
   private Player playerTwo;
+    private List<Block> blocks;
 
   public Game()
   {
     setBackground(Color.black);
 
     keys = new boolean[8];
-
     playerOne = new Player(50, 480, 20, 20, 3, 3, 1);
     playerTwo = new Player(400, 480, 20, 20, 3, 5, 2);
+      blocks = new ArrayList<Block>();
 
     this.addKeyListener(this);
     new Thread(this).start();
