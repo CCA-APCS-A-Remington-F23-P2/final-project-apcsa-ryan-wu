@@ -46,7 +46,6 @@ public class Player extends MovingThing {
         //feel free to do something here
       }
     }
-
   }
 
   public void setYSpeed(int s) {
@@ -70,6 +69,7 @@ public class Player extends MovingThing {
   public void move(String direction) {
     //add code here
     if (direction.equals("LEFT")) {
+      System.out.println("left");
       setX(getX() - xSpeed);
     }
     if (direction.equals("RIGHT")) {
@@ -84,20 +84,8 @@ public class Player extends MovingThing {
 
   }
 
-  public boolean isFalling() {
-    return false; //need way to find if block is under player
-  }
   public void jump() {
-    if (!isFalling())
-      setYSpeed(250);
-  }
-  public void build() {
-    if (isFalling()) {
-      System.out.println("build"); //need way to find if block is under player
-    }
-  }
-  public void draw(Graphics window) {
-    window.drawImage(image, getX(), getY(), getWidth(), getHeight(), null);
+    System.out.println("jumping");
   }
 
   public String toString() {

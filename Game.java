@@ -153,9 +153,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
   public void run() {
     try {
       while (true) {
-        Thread.currentThread().sleep(20);
+        Thread.currentThread().sleep(5);
         repaint();
       }
     } catch (Exception e) {}
   }
+
 }
