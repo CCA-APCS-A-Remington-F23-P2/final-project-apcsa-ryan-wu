@@ -85,14 +85,32 @@ public class Player extends MovingThing {
   }
 
   public void jump() {
+    if(inAir){
+      int count = 0;
+      if (count >= 5) {
+        setY(getY() + ySpeed());
+        setYSpeed(getYSpeed() - 1);
+        count = 0;
+      }
+      count++;
+    //setY(getY() + ySpeed())
+    //setYspeed(Yspeed() - 1)
+    //time.sleep(15)
+    //while yPos > 0
+    }
     System.out.println("jumping");
   }
   public void build() {
     System.out.println("building");
   }
+  public boolean inAir(){
+    return true;
+  }
 
   public String toString() {
     return super.toString();
   }
-
+  public void draw(Graphics window) {
+    window.drawImage(img, getX(), getY(), getS(), getS(), null);
+  }
 }
