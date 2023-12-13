@@ -29,7 +29,9 @@ public class Game extends Canvas implements KeyListener, Runnable {
     keys = new boolean[8];
     playerOne = new Player(50, 480, 20, 20, 3, 3, 1);
     playerTwo = new Player(400, 480, 20, 20, 3, 5, 2);
-    blocks = new ArrayList < Block > ();
+    blocks = new ArrayList<Block>();
+      blocks.add(new Block(50, 50, "metal"));
+      blocks.add(new Block(100, 100, "wood"));
 
     this.addKeyListener(this);
     new Thread(this).start();
@@ -86,6 +88,9 @@ public class Game extends Canvas implements KeyListener, Runnable {
     if (keys[7]) {
       playerTwo.move("DOWN");
     }
+      for(Block b : blocks){
+          b.draw(twoDGraph);
+      }
 
     twoDGraph.drawImage(back, null, 0, 0);
   }
