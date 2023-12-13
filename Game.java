@@ -9,6 +9,7 @@ import static java.lang.Character.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game extends Canvas implements KeyListener, Runnable {
 
@@ -16,7 +17,7 @@ public class Game extends Canvas implements KeyListener, Runnable {
   private BufferedImage back;
   private Player playerOne;
   private Player playerTwo;
-  private List < Block > blocks;
+  private List<Block> blocks;
 
   public Game() {
     setBackground(Color.black);
