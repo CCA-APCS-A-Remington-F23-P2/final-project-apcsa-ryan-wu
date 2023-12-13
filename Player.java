@@ -87,6 +87,9 @@ public class Player extends MovingThing {
   public void jump() {
     System.out.println("jumping");
   }
+  public void build() {
+    System.out.println("building");
+  }
 
   public String toString() {
     return super.toString();
