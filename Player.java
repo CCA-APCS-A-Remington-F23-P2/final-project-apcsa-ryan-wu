@@ -85,11 +85,12 @@ public class Player extends MovingThing {
   }
 
   public void jump() {
-    if(inAir()){
+    setYSpeed(10);
+    while(inAir()){
       int count = 0;
       if (count >= 5) {
-        setY(getY() + getYSpeed());
-        setYSpeed(getYSpeed() - 1);
+        setY(getY() - getYSpeed());
+        setYSpeed(getYSpeed() + 1);
         count = 0;
       }
       count++;
