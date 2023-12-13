@@ -9,6 +9,7 @@ import static java.lang.Character.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game extends Canvas implements KeyListener, Runnable {
 
@@ -89,7 +90,7 @@ public class Game extends Canvas implements KeyListener, Runnable {
       playerTwo.move("DOWN");
     }
       for(Block b : blocks){
-          b.draw(twoDGraph);
+          b.draw(graphToBack);
       }
 
     twoDGraph.drawImage(back, null, 0, 0);

@@ -85,10 +85,10 @@ public class Player extends MovingThing {
   }
 
   public void jump() {
-    if(inAir){
+    if(inAir()){
       int count = 0;
       if (count >= 5) {
-        setY(getY() + ySpeed());
+        setY(getY() + getYSpeed());
         setYSpeed(getYSpeed() - 1);
         count = 0;
       }
@@ -111,6 +111,6 @@ public class Player extends MovingThing {
     return super.toString();
   }
   public void draw(Graphics window) {
-    window.drawImage(img, getX(), getY(), getS(), getS(), null);
+    window.drawImage(image, getX(), getY(), 30, 30, null);
   }
 }
