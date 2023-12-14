@@ -18,21 +18,22 @@ public class Game extends Canvas implements KeyListener, Runnable {
   private Player playerOne;
   private Player playerTwo;
   private List <Block> blocks;
+  private boolean p1Jump, p2Jump;
 
   public Game() {
     setBackground(Color.black);
 
     keys = new boolean[8];
 
-    playerOne = new Player(400, 480, 20, 20, 3, 3, 1);
-    playerTwo = new Player(50, 480, 20, 20, 3, 5, 2);
 
     keys = new boolean[8];
-    playerOne = new Player(50, 480, 20, 20, 15, 3, 1);
-    playerTwo = new Player(400, 480, 20, 20, 15, 5, 2);
+    playerOne = new Player(400, 480, 20, 20, 10, 3, 1);
+    playerTwo = new Player(50, 480, 20, 20, 10, 5, 2);
     blocks = new ArrayList<Block>();
       blocks.add(new Block(50, 50, "metal"));
       blocks.add(new Block(100, 100, "wood"));
+    p1Jump = false;
+    p2Jump = false;
 
     this.addKeyListener(this);
     new Thread(this).start();
@@ -66,32 +67,46 @@ public class Game extends Canvas implements KeyListener, Runnable {
     playerTwo.draw(graphToBack);
 
     if (keys[0]) {
-      playerOne.move("LEFT");
+      playerOne.move("LEFT", graphToBack);
     }
     if (keys[1]) {
-      playerOne.move("RIGHT");
+      playerOne.move("RIGHT", graphToBack);
     }
     if (keys[2]) {
-      playerOne.move("UP");
+      p1Jump = true;
     }
     if (keys[3]) {
-      playerOne.move("DOWN");
+      playerOne.move("DOWN", graphToBack);
     }
     if (keys[4]) {
-      playerTwo.move("LEFT");
+      playerTwo.move("LEFT", graphToBack);
     }
     if (keys[5]) {
-      playerTwo.move("RIGHT");
+      playerTwo.move("RIGHT", graphToBack);
     }
     if (keys[6]) {
-      playerTwo.move("UP");
+      p2Jump = true;
     }
     if (keys[7]) {
-      playerTwo.move("DOWN");
+      playerTwo.move("DOWN", graphToBack);
     }
       for(Block b : blocks){
           b.draw(graphToBack);
       }
+    if (p1Jump) {
+      playerOne.jump();
+    }
+    if (!playerOne.inAir()) {
+      playerOne.reset();
+      p1Jump = false;
+    }
+    if (p2Jump) {
+      playerTwo.jump();
+    }
+    if (!playerTwo.inAir()) {
+      playerTwo.reset();
+      p2Jump = false;
+    }
 
     twoDGraph.drawImage(back, null, 0, 0);
   }
