@@ -130,4 +130,28 @@ public class Player extends MovingThing {
     return segmentsOverlap(getX(), getX() + getWidth(), a.getX(), a.getX() + a.getS())
         && segmentsOverlap(getY(), getY() + getHeight(), a.getY(), a.getY() + a.getS());
   }
+
+  public boolean didCollideWithWall(List<Block> blocks) {
+    for (Block b : blocks) {
+      if (didCollideWithWall(b)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean isOnTopOfLedge(List<Block> blocks) {
+    int xLowerRange = blocks.get(0).getX() - (getWidth()/2);
+    int xUpperRange = blocks.get(blocks.size()-1).getX() + blocks.get(blocks.size()-1).getS() - (getWidth()/2);
+    int yRange = blocks.get(0).getY() - getHeight();
+
+    // System.out.println("xLowerRange: " + xLowerRange);
+    // System.out.println("xUpperRange: " + xUpperRange);
+    // System.out.println("yRange: " + yRange);
+
+    if (getX() >= xLowerRange && getX() <= xUpperRange && yRange-5<=getY() && getY() <=yRange+5) {
+      return true;
+    }
+    return false;
+  }
 }

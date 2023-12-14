@@ -30,8 +30,12 @@ public class Game extends Canvas implements KeyListener, Runnable {
     playerOne = new Player(400, 480, 20, 20, 10, 3, 1);
     playerTwo = new Player(50, 480, 20, 20, 10, 5, 2);
     blocks = new ArrayList<Block>();
-    blocks.add(new Block(50, 50, "metal"));
+    // blocks.add(new Block(50, 50, "metal"));
     blocks.add(new Block(400, 450, "wood"));
+    blocks.add(new Block(420, 450, "wood"));
+    blocks.add(new Block(440, 450, "wood"));
+    blocks.add(new Block(460, 450, "wood"));
+    blocks.add(new Block(480, 450, "wood"));
     p1Jump = false;
     p2Jump = false;
     this.addKeyListener(this);
@@ -62,8 +66,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
     graphToBack.setColor(Color.GREEN);
     graphToBack.fillRect(0, 500, 800, 100);
 
-    if(playerOne.didCollideWithWall(blocks.get(1))) {
-      System.out.println("COLLISION");
+    // System.out.println(playerOne.getY());
+    if(playerOne.isOnTopOfLedge(blocks)) {
+      playerOne.setYSpeed(0);
+      playerOne.setY(blocks.get(0).getY() - (playerOne.getHeight()+10));
     }
 
     playerOne.draw(graphToBack);
