@@ -20,42 +20,54 @@ public class Block {
       try {
         URL url = getClass().getResource("BrownBlock.jpeg");
         img = ImageIO.read(url);
-      } catch (Exception e) {}
+      } catch (Exception e) {
+      }
     } else if (type.equals("metal")) {
       try {
         URL url = getClass().getResource("GreyBlock.png");
         img = ImageIO.read(url);
-      } catch (Exception e) {}
+      } catch (Exception e) {
+      }
     }
 
   }
+
   public int getX() {
     return x;
   }
+
   public int getY() {
     return y;
   }
+
   public int getS() {
     return s;
   }
+
   public int getHealth() {
     return h;
   }
+
   public void setX(int x) {
     this.x = x;
   }
+
   public void setY(int y) {
     this.y = y;
   }
+
   public void changeX(int dx) {
     x += dx;
   }
+
   public void changeY(int dy) {
     y += dy;
   }
+
   public void decHealth() {
     h--;
   }
+
   public void draw(Graphics window) {
     window.drawImage(img, getX(), getY(), getS(), getS(), null);
   }

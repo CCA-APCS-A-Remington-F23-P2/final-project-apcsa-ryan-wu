@@ -22,7 +22,7 @@ public abstract class MovingThing {
   }
 
   public MovingThing(int x, int y, int w, int h) {
-    //add code here
+    // add code here
     xPos = x;
     yPos = y;
     width = w;
@@ -30,48 +30,49 @@ public abstract class MovingThing {
   }
 
   public void setPos(int x, int y) {
-    //add code here
+    // add code here
     xPos = x;
     yPos = y;
   }
 
   public void setX(int x) {
-    //add code here
+    // add code here
     xPos = x;
   }
 
   public void setY(int y) {
-    //add code here
+    // add code here
     yPos = y;
   }
 
   public int getX() {
-    return xPos; //finish this method
+    return xPos; // finish this method
   }
 
   public int getY() {
-    return yPos; //finish this method
+    return yPos; // finish this method
   }
 
   public void setWidth(int w) {
-    //add code here
+    // add code here
     width = w;
   }
 
   public void setHeight(int h) {
-    //add code here
+    // add code here
     height = h;
   }
 
   public int getWidth() {
-    return width; //finish this method
+    return width; // finish this method
   }
 
   public int getHeight() {
-    return height; //finish this method
+    return height; // finish this method
   }
 
   public abstract void move(String direction);
+
   public abstract void draw(Graphics window);
 
   private boolean segmentsOverlap(int s1, int e1, int s2, int e2) {
@@ -83,7 +84,8 @@ public abstract class MovingThing {
   }
 
   public boolean didCollide(MovingThing a) {
-    return segmentsOverlap(getX(), getX() + getWidth(), a.getX(), a.getX() + a.getWidth()) && segmentsOverlap(getY(), getY() + getHeight(), a.getY(), a.getY() + a.getHeight());
+    return segmentsOverlap(getX(), getX() + getWidth(), a.getX(), a.getX() + a.getWidth())
+        && segmentsOverlap(getY(), getY() + getHeight(), a.getY(), a.getY() + a.getHeight());
   }
 
   public String toString() {

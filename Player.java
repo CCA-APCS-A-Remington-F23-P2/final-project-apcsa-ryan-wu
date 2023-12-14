@@ -111,11 +111,23 @@ public class Player extends MovingThing {
     System.out.println("building");
   }
 
-
   public String toString() {
     return super.toString();
   }
   public void draw(Graphics window) {
     window.drawImage(image, getX(), getY(), 30, 30, null);
+  }
+
+  private boolean segmentsOverlap(int s1, int e1, int s2, int e2) {
+    if (s1 < s2) {
+      return e1 >= s2;
+    } else {
+      return e2 >= s1;
+    }
+  }
+
+  public boolean didCollideWithWall(Block a) {
+    return segmentsOverlap(getX(), getX() + getWidth(), a.getX(), a.getX() + a.getS())
+        && segmentsOverlap(getY(), getY() + getHeight(), a.getY(), a.getY() + a.getS());
   }
 }
