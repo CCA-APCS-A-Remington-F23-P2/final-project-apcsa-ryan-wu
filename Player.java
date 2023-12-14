@@ -5,11 +5,14 @@ import java.awt.Graphics;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 import java.util.List;
+import java.lang.Thread;
 
 public class Player extends MovingThing {
   private int ySpeed;
   private int xSpeed;
   private Image image;
+  private int count = 0;
+  private long lastJump = 0;
 
   public Player(int player) {
     this(10, 10, 10, 10, 1, 1, player);
@@ -66,10 +69,9 @@ public class Player extends MovingThing {
     return xSpeed;
   }
 
-  public void move(String direction) {
+  public void move(String direction, Graphics window) {
     //add code here
     if (direction.equals("LEFT")) {
-      System.out.println("left");
       setX(getX() - xSpeed);
     }
     if (direction.equals("RIGHT")) {
@@ -78,35 +80,37 @@ public class Player extends MovingThing {
     if (direction.equals("DOWN")) {
       build();
     }
-    if (direction.equals("UP")) {
-      jump();
-    }
+
+  }
+
+  public void gravity() {
+    //add code here
+    setYSpeed(getYSpeed() - 1);
 
   }
 
   public void jump() {
-    setYSpeed(10);
-    while(inAir()){
-      int count = 0;
-      if (count >= 5) {
-        setY(getY() - getYSpeed());
-        setYSpeed(getYSpeed() + 1);
-        count = 0;
-      }
-      count++;
-    //setY(getY() + ySpeed())
-    //setYspeed(Yspeed() - 1)
-    //time.sleep(15)
-    //while yPos > 0
+    setY(getY() - ySpeed);
+    if (count == 2) {
+      gravity();
+      count = 0;
     }
-    System.out.println("jumping");
+    count++;
   }
+
+  public boolean inAir(){
+    return getY() <= 480;
+  }
+
+  public void reset() {
+    setY(480);
+    setYSpeed(10);
+  }
+
   public void build() {
     System.out.println("building");
   }
-  public boolean inAir(){
-    return true;
-  }
+
 
   public String toString() {
     return super.toString();
