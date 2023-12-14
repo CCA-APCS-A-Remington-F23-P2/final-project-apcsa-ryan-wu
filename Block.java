@@ -71,4 +71,6 @@ public class Block {
   public void draw(Graphics window) {
     window.drawImage(img, getX(), getY(), getS(), getS(), null);
   }
+
+  public static boolean updateTextFile() {return true;}
 }
