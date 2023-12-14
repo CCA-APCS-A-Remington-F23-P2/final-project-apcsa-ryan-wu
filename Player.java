@@ -69,7 +69,7 @@ public class Player extends MovingThing {
     return xSpeed;
   }
 
-  public void move(String direction, Graphics window) {
+  public void move(String direction) {
     //add code here
     if (direction.equals("LEFT")) {
       setX(getX() - xSpeed);

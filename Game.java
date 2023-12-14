@@ -67,28 +67,28 @@ public class Game extends Canvas implements KeyListener, Runnable {
     playerTwo.draw(graphToBack);
 
     if (keys[0]) {
-      playerOne.move("LEFT", graphToBack);
+      playerOne.move("LEFT");
     }
     if (keys[1]) {
-      playerOne.move("RIGHT", graphToBack);
+      playerOne.move("RIGHT");
     }
     if (keys[2]) {
       p1Jump = true;
     }
     if (keys[3]) {
-      playerOne.move("DOWN", graphToBack);
+      playerOne.move("DOWN");
     }
     if (keys[4]) {
-      playerTwo.move("LEFT", graphToBack);
+      playerTwo.move("LEFT");
     }
     if (keys[5]) {
-      playerTwo.move("RIGHT", graphToBack);
+      playerTwo.move("RIGHT");
     }
     if (keys[6]) {
       p2Jump = true;
     }
     if (keys[7]) {
-      playerTwo.move("DOWN", graphToBack);
+      playerTwo.move("DOWN");
     }
       for(Block b : blocks){
           b.draw(graphToBack);
