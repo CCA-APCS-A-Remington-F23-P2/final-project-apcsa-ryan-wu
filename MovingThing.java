@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.List;
 
 public abstract class MovingThing {
   private int xPos;
@@ -71,7 +72,7 @@ public abstract class MovingThing {
     return height; // finish this method
   }
 
-  public abstract void move(String direction);
+  public abstract void move(List<Block> blocks);
 
   public abstract void draw(Graphics window);
 

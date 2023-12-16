@@ -20,10 +20,11 @@ public class Game extends Canvas implements KeyListener, Runnable {
   private Player playerOne;
   private Player playerTwo;
   private List <Block> blocks;
-  private final long gravInterval = 150;
+  private final long gravInterval = 75;
   private long lastGrav1 = 0;
   private long lastGrav2 = 0;
     private final int xSpeed = 3;
+    private final int ySpeed = 5;
 
   public Game() {
     setBackground(Color.black);
@@ -77,43 +78,38 @@ public class Game extends Canvas implements KeyListener, Runnable {
     graphToBack.setColor(Color.BLACK);
     graphToBack.fillRect(0, 0, 800, 600);
 
+    if(System.currentTimeMillis()-lastGrav1 > gravInterval){
+        playerOne.gravity();
+        lastGrav1 = System.currentTimeMillis();
+    }
+    if(System.currentTimeMillis()-lastGrav2 > gravInterval){
+        playerTwo.gravity();
+        lastGrav2 = System.currentTimeMillis();
+    }
+    if(playerOne.blockBelow(blocks)) playerOne.setYSpeed(0);
+    if(playerTwo.blockBelow(blocks)) playerTwo.setYSpeed(0);
+    if(playerOne.blockAbove(blocks)) playerOne.setYSpeed(-1);
+    if(playerTwo.blockAbove(blocks)) playerTwo.setYSpeed(-1);
     if (keys[0] && !keys[1]) playerOne.setXSpeed(-xSpeed);
     else if(!keys[0] && keys[1]) playerOne.setXSpeed(xSpeed);
     else playerOne.setXSpeed(0);
-        // if(!playerOne.inAir(blocks)){
-        //     playerOne.move("UP");
-        //     lastGrav1 = System.currentTimeMillis();
-        // }
-    
+    if(keys[2] && playerOne.blockBelow(blocks)){
+        playerOne.setYSpeed(ySpeed);
+        lastGrav1 = System.currentTimeMillis();
+    }
     if (keys[3]) playerOne.build();
     if (keys[4] && !keys[5]) playerTwo.setXSpeed(-xSpeed);
     else if(!keys[4] && keys[5]) playerTwo.setXSpeed(xSpeed);
     else playerTwo.setXSpeed(0);
-    if (keys[6]) {
-        // if(!playerTwo.inAir(blocks)){
-        //     playerTwo.move("UP");
-        //     lastGrav2 = System.currentTimeMillis();
-        // }
+    if (keys[6] && playerTwo.blockBelow(blocks)) {
+        playerTwo.setYSpeed(ySpeed);
+        lastGrav2 = System.currentTimeMillis();
     }
     if (keys[7]) playerTwo.build();
 
-      if(System.currentTimeMillis()-lastGrav1 > gravInterval){
-          playerOne.gravity();
-          lastGrav1 = System.currentTimeMillis();
-      }
-      if(System.currentTimeMillis()-lastGrav2 > gravInterval){
-          playerTwo.gravity();
-          lastGrav2 = System.currentTimeMillis();
-      }
+        playerOne.move(blocks);
+        playerTwo.move(blocks);
 
-      // if(!playerOne.inAir(blocks)) playerOne.setYSpeed(0);
-      // if(!playerTwo.inAir(blocks)) playerTwo.setYSpeed(0);
-        playerOne.move(null);
-        playerTwo.move(null);
-      playerOne.handleCollisions(blocks);
-      playerTwo.handleCollisions(blocks);
-      if(playerOne.standingOnBlock(blocks)) playerOne.setYSpeed(0);
-      if(playerTwo.standingOnBlock(blocks)) playerTwo.setYSpeed(0);
       playerOne.draw(graphToBack);
       playerTwo.draw(graphToBack);
       for(Block b : blocks){

@@ -45,20 +45,15 @@ public class Player extends MovingThing {
       try {
         URL url = getClass().getResource("RedSquare.png");
         image = ImageIO.read(url);
-      } catch (Exception e) {
-        //feel free to do something here
-      }
+      } catch (Exception e) {}
     }
   }
 
   public void setYSpeed(int s) {
-    //add more code
     ySpeed = s;
   }
 
   public void setXSpeed(int s) {
-      System.out.println(s);
-    //add more code
     xSpeed = s;
   }
 
@@ -70,14 +65,34 @@ public class Player extends MovingThing {
     return xSpeed;
   }
 
-  public void move(String direction) {
-      setX(getX() + getXSpeed());
-      setY(getY() - getYSpeed());
-  }
+  public void move(List<Block> blocks) {
+      if(getYSpeed()==0 && getY() != 319 && getY() != 499) System.out.println(getY());
+      double dx = getXSpeed()/10.0;
+      double dy = getYSpeed()/10.0;
+      double x = getX();
+      double y = getY();
+      boolean xDone = false;
+      boolean yDone = false;
+      for(int i = 0; i < 10; i++){
+            x += dx;
+            y -= dy;
+            if(!xDone){
+                setX((int) Math.round(x));
+                if(isTouching(blocks)){
+                    setX((int) Math.round(x-dx));
+                    xDone = true;
+                }
+            }
+            if(!yDone){
+                setY((int) Math.round(y));
+                  if(isTouching(blocks)){
+                      setY((int) Math.round(y+dy));
+                      yDone = true;
+                  }
+            }
 
-    // public boolean inAir(List<Block> blocks){
-    //     return didCollideTop(blocks) == null;
-    // }
+      }
+  }
 
   public void gravity() {
     setYSpeed(getYSpeed() - 1);
@@ -108,7 +123,15 @@ public class Player extends MovingThing {
         for(Block b : blocks) if(isTouching(b)) return true; return false;
     }
 
-    public boolean standingOnBlock(List<Block> blocks){
+    public boolean blockAbove(List<Block> blocks){
+        boolean ret = false;
+        setY(getY()-1);
+        if(isTouching(blocks)) ret = true;
+        setY(getY()+1);
+        return ret;
+    }
+
+    public boolean blockBelow(List<Block> blocks){
         boolean ret = false;
         setY(getY()+1);
         if(isTouching(blocks)) ret = true;
@@ -116,12 +139,4 @@ public class Player extends MovingThing {
         return ret;
     }
 
-    public void handleCollisions(List<Block> blocks){
-        int dx = (xSpeed==0 ? 0 : (xSpeed>0 ? -1 : 1));
-        int dy = (ySpeed==0 ? 0 : (ySpeed>0 ? 1 : -1));
-        while(isTouching(blocks)){
-            setX(getX()+dx);
-            setY(getY()+dy);
-        }
-    }
 }
