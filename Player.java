@@ -57,6 +57,7 @@ public class Player extends MovingThing {
   }
 
   public void setXSpeed(int s) {
+      System.out.println(s);
     //add more code
     xSpeed = s;
   }
@@ -107,20 +108,20 @@ public class Player extends MovingThing {
         for(Block b : blocks) if(isTouching(b)) return true; return false;
     }
 
-    public void standingOnBlock(List<Block> blocks){}
+    public boolean standingOnBlock(List<Block> blocks){
+        boolean ret = false;
+        setY(getY()+1);
+        if(isTouching(blocks)) ret = true;
+        setY(getY()-1);
+        return ret;
+    }
 
     public void handleCollisions(List<Block> blocks){
         int dx = (xSpeed==0 ? 0 : (xSpeed>0 ? -1 : 1));
         int dy = (ySpeed==0 ? 0 : (ySpeed>0 ? 1 : -1));
-        boolean touched = false;
         while(isTouching(blocks)){
-            touched = true;
             setX(getX()+dx);
             setY(getY()+dy);
-        }
-        if(touched){
-            setX(getX()-dx);
-            setY(getY()-dy);
         }
     }
 }

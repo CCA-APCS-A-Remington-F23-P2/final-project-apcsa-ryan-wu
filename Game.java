@@ -23,6 +23,7 @@ public class Game extends Canvas implements KeyListener, Runnable {
   private final long gravInterval = 150;
   private long lastGrav1 = 0;
   private long lastGrav2 = 0;
+    private final int xSpeed = 3;
 
   public Game() {
     setBackground(Color.black);
@@ -76,20 +77,17 @@ public class Game extends Canvas implements KeyListener, Runnable {
     graphToBack.setColor(Color.BLACK);
     graphToBack.fillRect(0, 0, 800, 600);
 
-    if (keys[0]) playerOne.setXSpeed(-4);
+    if (keys[0] && !keys[1]) playerOne.setXSpeed(-xSpeed);
+    else if(!keys[0] && keys[1]) playerOne.setXSpeed(xSpeed);
     else playerOne.setXSpeed(0);
-    if (keys[1]) playerOne.setXSpeed(4);
-    else playerOne.setXSpeed(0);
-    if (keys[2]) {
         // if(!playerOne.inAir(blocks)){
         //     playerOne.move("UP");
         //     lastGrav1 = System.currentTimeMillis();
         // }
-    }
+    
     if (keys[3]) playerOne.build();
-    if (keys[4]) playerTwo.setXSpeed(-4);
-    else playerTwo.setXSpeed(0);
-    if (keys[5]) playerTwo.setXSpeed(4);
+    if (keys[4] && !keys[5]) playerTwo.setXSpeed(-xSpeed);
+    else if(!keys[4] && keys[5]) playerTwo.setXSpeed(xSpeed);
     else playerTwo.setXSpeed(0);
     if (keys[6]) {
         // if(!playerTwo.inAir(blocks)){
@@ -110,15 +108,17 @@ public class Game extends Canvas implements KeyListener, Runnable {
 
       // if(!playerOne.inAir(blocks)) playerOne.setYSpeed(0);
       // if(!playerTwo.inAir(blocks)) playerTwo.setYSpeed(0);
+        playerOne.move(null);
+        playerTwo.move(null);
       playerOne.handleCollisions(blocks);
       playerTwo.handleCollisions(blocks);
-      playerOne.move(null);
-      playerTwo.move(null);
-        for(Block b : blocks){
-            b.draw(graphToBack);
-        }
+      if(playerOne.standingOnBlock(blocks)) playerOne.setYSpeed(0);
+      if(playerTwo.standingOnBlock(blocks)) playerTwo.setYSpeed(0);
       playerOne.draw(graphToBack);
       playerTwo.draw(graphToBack);
+      for(Block b : blocks){
+          b.draw(graphToBack);
+      }
       
     twoDGraph.drawImage(back, null, 0, 0);
   }
