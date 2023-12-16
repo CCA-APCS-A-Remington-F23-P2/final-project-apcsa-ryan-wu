@@ -27,8 +27,8 @@ public class Game extends Canvas implements KeyListener, Runnable {
   public Game() {
     setBackground(Color.black);
     keys = new boolean[8];
-    playerOne = new Player(400, 20, 20, 20, 0, 4, 1);
-    playerTwo = new Player(80, 20, 20, 20, 0, 4, 2);
+    playerOne = new Player(400, 20, 20, 20, 0, 0, 1);
+    playerTwo = new Player(80, 20, 20, 20, 0, 0, 2);
     blocks = new ArrayList<Block>();
     loadBlocks(true);
     blocks.add(new Block(400, 450, "wood"));
@@ -76,41 +76,29 @@ public class Game extends Canvas implements KeyListener, Runnable {
     graphToBack.setColor(Color.BLACK);
     graphToBack.fillRect(0, 0, 800, 600);
 
-    if (keys[0]) {
-      playerOne.move("LEFT");
-    }
-    if (keys[1]) {
-      playerOne.move("RIGHT");
-    }
+    if (keys[0]) playerOne.setXSpeed(-4);
+    else playerOne.setXSpeed(0);
+    if (keys[1]) playerOne.setXSpeed(4);
+    else playerOne.setXSpeed(0);
     if (keys[2]) {
-        if(!playerOne.inAir(blocks)){
-            playerOne.move("UP");
-            lastGrav1 = System.currentTimeMillis();
-        }
+        // if(!playerOne.inAir(blocks)){
+        //     playerOne.move("UP");
+        //     lastGrav1 = System.currentTimeMillis();
+        // }
     }
-    if (keys[3]) {
-      playerOne.move("DOWN");
-    }
-    if (keys[4]) {
-      playerTwo.move("LEFT");
-    }
-    if (keys[5]) {
-      playerTwo.move("RIGHT");
-    }
+    if (keys[3]) playerOne.build();
+    if (keys[4]) playerTwo.setXSpeed(-4);
+    else playerTwo.setXSpeed(0);
+    if (keys[5]) playerTwo.setXSpeed(4);
+    else playerTwo.setXSpeed(0);
     if (keys[6]) {
-        if(!playerTwo.inAir(blocks)){
-            playerTwo.move("UP");
-            lastGrav2 = System.currentTimeMillis();
-        }
+        // if(!playerTwo.inAir(blocks)){
+        //     playerTwo.move("UP");
+        //     lastGrav2 = System.currentTimeMillis();
+        // }
     }
-    if (keys[7]) {
-      playerTwo.move("DOWN");
-    }
-      for(Block b : blocks){
-          b.draw(graphToBack);
-      }
-      handleCollisions(playerOne);
-      handleCollisions(playerTwo);
+    if (keys[7]) playerTwo.build();
+
       if(System.currentTimeMillis()-lastGrav1 > gravInterval){
           playerOne.gravity();
           lastGrav1 = System.currentTimeMillis();
@@ -119,39 +107,21 @@ public class Game extends Canvas implements KeyListener, Runnable {
           playerTwo.gravity();
           lastGrav2 = System.currentTimeMillis();
       }
-      if(!playerOne.inAir(blocks)) playerOne.setYSpeed(0);
-      if(!playerTwo.inAir(blocks)) playerTwo.setYSpeed(0);
-      playerOne.setY(playerOne.getY()-playerOne.getYSpeed());
-      playerTwo.setY(playerTwo.getY()-playerTwo.getYSpeed());
+
+      // if(!playerOne.inAir(blocks)) playerOne.setYSpeed(0);
+      // if(!playerTwo.inAir(blocks)) playerTwo.setYSpeed(0);
+      playerOne.handleCollisions(blocks);
+      playerTwo.handleCollisions(blocks);
+      playerOne.move(null);
+      playerTwo.move(null);
+        for(Block b : blocks){
+            b.draw(graphToBack);
+        }
       playerOne.draw(graphToBack);
       playerTwo.draw(graphToBack);
       
-
     twoDGraph.drawImage(back, null, 0, 0);
   }
-    public void handleCollisions(Player p){
-        Block b;
-        b = p.didCollideTop(blocks);
-        if(b != null){
-            p.setYSpeed(0);
-            p.setY(b.getY()-p.getHeight());
-        }
-        b = p.didCollideBottom(blocks);
-        if(b != null){
-            p.setYSpeed(0);
-            p.setY(b.getY());
-        }
-        b = p.didCollideLeft(blocks);
-        if(b != null){
-            p.setXSpeed(0);
-            p.setX(b.getX()-p.getWidth());
-        }
-        b = p.didCollideRight(blocks);
-        if(b != null){
-            p.setXSpeed(0);
-            p.setX(b.getX());
-        }
-    }
 
   public void keyPressed(KeyEvent e) {
     if (e.getKeyCode() == KeyEvent.VK_LEFT) {

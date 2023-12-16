@@ -70,25 +70,13 @@ public class Player extends MovingThing {
   }
 
   public void move(String direction) {
-    //add code here
-    if (direction.equals("LEFT")) {
-      setX(getX() - xSpeed);
-    }
-    if (direction.equals("RIGHT")) {
-      setX(getX() + xSpeed);
-    }
-    if (direction.equals("DOWN")) {
-      build();
-    }
-    if(direction.equals("UP")){
-        setYSpeed(3);
-        setY(getY()-1);
-    }
+      setX(getX() + getXSpeed());
+      setY(getY() - getYSpeed());
   }
 
-    public boolean inAir(List<Block> blocks){
-        return didCollideTop(blocks) == null;
-    }
+    // public boolean inAir(List<Block> blocks){
+    //     return didCollideTop(blocks) == null;
+    // }
 
   public void gravity() {
     setYSpeed(getYSpeed() - 1);
@@ -115,31 +103,24 @@ public class Player extends MovingThing {
             && segmentsOverlap(getY(), getY()+getHeight(), b.getY(), b.getY()+b.getS());
     }
 
-    public boolean didCollideLeft(Block b){
-        return isTouching(b) && Math.abs(getX()+getWidth() - b.getS()) <= Math.abs(xSpeed);        
-    }
-    public Block didCollideLeft(List<Block> blocks){
-        for(Block b : blocks) if(didCollideLeft(b)) return b; return null;
+    public boolean isTouching(List<Block> blocks){
+        for(Block b : blocks) if(isTouching(b)) return true; return false;
     }
 
-    public boolean didCollideRight(Block b){
-        return isTouching(b) && Math.abs(getX() - (b.getX()+b.getS())) <= Math.abs(xSpeed);
-    }
-    public Block didCollideRight(List<Block> blocks){
-        for(Block b : blocks) if(didCollideRight(b)) return b; return null;
-    }
+    public void standingOnBlock(List<Block> blocks){}
 
-    public boolean didCollideTop(Block b){
-        return isTouching(b) && Math.abs(getY()+getHeight() - b.getY()) <= Math.abs(ySpeed);
-    }
-    public Block didCollideTop(List<Block> blocks){
-        for(Block b : blocks) if(didCollideTop(b)) return b; return null;
-    }
-
-    public boolean didCollideBottom(Block b){
-        return isTouching(b) && Math.abs(getY() - (b.getY()+b.getS())) <= Math.abs(ySpeed);
-    }
-    public Block didCollideBottom(List<Block> blocks){
-        for(Block b : blocks) if(didCollideBottom(b)) return b; return null;
+    public void handleCollisions(List<Block> blocks){
+        int dx = (xSpeed==0 ? 0 : (xSpeed>0 ? -1 : 1));
+        int dy = (ySpeed==0 ? 0 : (ySpeed>0 ? 1 : -1));
+        boolean touched = false;
+        while(isTouching(blocks)){
+            touched = true;
+            setX(getX()+dx);
+            setY(getY()+dy);
+        }
+        if(touched){
+            setX(getX()-dx);
+            setY(getY()-dy);
+        }
     }
 }
