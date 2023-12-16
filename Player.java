@@ -80,31 +80,18 @@ public class Player extends MovingThing {
     if (direction.equals("DOWN")) {
       build();
     }
-
+    if(direction.equals("UP")){
+        setYSpeed(3);
+        setY(getY()-1);
+    }
   }
+
+    public boolean inAir(List<Block> blocks){
+        return didCollideTop(blocks) == null;
+    }
 
   public void gravity() {
-    //add code here
     setYSpeed(getYSpeed() - 1);
-
-  }
-
-  public void jump() {
-    setY(getY() - ySpeed);
-    if (count == 2) {
-      gravity();
-      count = 0;
-    }
-    count++;
-  }
-
-  public boolean inAir(){
-    return getY() <= 480;
-  }
-
-  public void reset() {
-    setY(480);
-    setYSpeed(10);
   }
 
   public void build() {
@@ -115,43 +102,44 @@ public class Player extends MovingThing {
     return super.toString();
   }
   public void draw(Graphics window) {
-    window.drawImage(image, getX(), getY(), 30, 30, null);
+    window.drawImage(image, getX(), getY(), getWidth(), getHeight(), null);
   }
 
   private boolean segmentsOverlap(int s1, int e1, int s2, int e2) {
-    if (s1 < s2) {
-      return e1 >= s2;
-    } else {
-      return e2 >= s1;
+    if (s1 < s2) return e1 >= s2;
+    else return e2 >= s1;
+  }
+
+    public boolean isTouching(Block b){
+        return segmentsOverlap(getX(), getX()+getWidth(), b.getX(), b.getX()+b.getS())
+            && segmentsOverlap(getY(), getY()+getHeight(), b.getY(), b.getY()+b.getS());
     }
-  }
 
-  public boolean didCollideWithWall(Block a) {
-    return segmentsOverlap(getX(), getX() + getWidth(), a.getX(), a.getX() + a.getS())
-        && segmentsOverlap(getY(), getY() + getHeight(), a.getY(), a.getY() + a.getS());
-  }
-
-  public boolean didCollideWithWall(List<Block> blocks) {
-    for (Block b : blocks) {
-      if (didCollideWithWall(b)) {
-        return true;
-      }
+    public boolean didCollideLeft(Block b){
+        return isTouching(b) && Math.abs(getX()+getWidth() - b.getS()) <= Math.abs(xSpeed);        
     }
-    return false;
-  }
-
-  public boolean isOnTopOfLedge(List<Block> blocks) {
-    int xLowerRange = blocks.get(0).getX() - (getWidth()/2);
-    int xUpperRange = blocks.get(blocks.size()-1).getX() + blocks.get(blocks.size()-1).getS() - (getWidth()/2);
-    int yRange = blocks.get(0).getY() - getHeight();
-
-    // System.out.println("xLowerRange: " + xLowerRange);
-    // System.out.println("xUpperRange: " + xUpperRange);
-    // System.out.println("yRange: " + yRange);
-
-    if (getX() >= xLowerRange && getX() <= xUpperRange && yRange-5<=getY() && getY() <=yRange+5) {
-      return true;
+    public Block didCollideLeft(List<Block> blocks){
+        for(Block b : blocks) if(didCollideLeft(b)) return b; return null;
     }
-    return false;
-  }
+
+    public boolean didCollideRight(Block b){
+        return isTouching(b) && Math.abs(getX() - (b.getX()+b.getS())) <= Math.abs(xSpeed);
+    }
+    public Block didCollideRight(List<Block> blocks){
+        for(Block b : blocks) if(didCollideRight(b)) return b; return null;
+    }
+
+    public boolean didCollideTop(Block b){
+        return isTouching(b) && Math.abs(getY()+getHeight() - b.getY()) <= Math.abs(ySpeed);
+    }
+    public Block didCollideTop(List<Block> blocks){
+        for(Block b : blocks) if(didCollideTop(b)) return b; return null;
+    }
+
+    public boolean didCollideBottom(Block b){
+        return isTouching(b) && Math.abs(getY() - (b.getY()+b.getS())) <= Math.abs(ySpeed);
+    }
+    public Block didCollideBottom(List<Block> blocks){
+        for(Block b : blocks) if(didCollideBottom(b)) return b; return null;
+    }
 }

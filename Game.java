@@ -10,6 +10,8 @@ import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
+import java.util.Scanner;
 
 public class Game extends Canvas implements KeyListener, Runnable {
 
@@ -18,31 +20,41 @@ public class Game extends Canvas implements KeyListener, Runnable {
   private Player playerOne;
   private Player playerTwo;
   private List <Block> blocks;
-  private boolean p1Jump, p2Jump;
+  private final long gravInterval = 150;
+  private long lastGrav1 = 0;
+  private long lastGrav2 = 0;
 
   public Game() {
     setBackground(Color.black);
-
     keys = new boolean[8];
-
-
-    keys = new boolean[8];
-    playerOne = new Player(400, 480, 20, 20, 10, 3, 1);
-    playerTwo = new Player(50, 480, 20, 20, 10, 5, 2);
+    playerOne = new Player(400, 20, 20, 20, 0, 4, 1);
+    playerTwo = new Player(80, 20, 20, 20, 0, 4, 2);
     blocks = new ArrayList<Block>();
-    // blocks.add(new Block(50, 50, "metal"));
+    loadBlocks(true);
     blocks.add(new Block(400, 450, "wood"));
     blocks.add(new Block(420, 450, "wood"));
     blocks.add(new Block(440, 450, "wood"));
     blocks.add(new Block(460, 450, "wood"));
     blocks.add(new Block(480, 450, "wood"));
-    p1Jump = false;
-    p2Jump = false;
     this.addKeyListener(this);
     new Thread(this).start();
 
     setVisible(true);
   }
+
+    public void loadBlocks(boolean newMap){
+        Scanner s;
+        try{
+            if(newMap) s = new Scanner(new File("BlockDataDefault.txt"));
+            else s = new Scanner(new File("BlockData.txt"));
+            while(s.hasNextLine()){
+                int x = s.nextInt()*20;
+                int y = s.nextInt()*20;
+                String t = s.next();
+                blocks.add(new Block(x, y, t));
+            }
+        } catch(Exception e){}
+    }
 
   public void update(Graphics window) {
     paint(window);
@@ -63,17 +75,6 @@ public class Game extends Canvas implements KeyListener, Runnable {
 
     graphToBack.setColor(Color.BLACK);
     graphToBack.fillRect(0, 0, 800, 600);
-    graphToBack.setColor(Color.GREEN);
-    graphToBack.fillRect(0, 500, 800, 100);
-
-    // System.out.println(playerOne.getY());
-    if(playerOne.isOnTopOfLedge(blocks)) {
-      playerOne.setYSpeed(0);
-      playerOne.setY(blocks.get(0).getY() - (playerOne.getHeight()+10));
-    }
-
-    playerOne.draw(graphToBack);
-    playerTwo.draw(graphToBack);
 
     if (keys[0]) {
       playerOne.move("LEFT");
@@ -82,7 +83,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
       playerOne.move("RIGHT");
     }
     if (keys[2]) {
-      p1Jump = true;
+        if(!playerOne.inAir(blocks)){
+            playerOne.move("UP");
+            lastGrav1 = System.currentTimeMillis();
+        }
     }
     if (keys[3]) {
       playerOne.move("DOWN");
@@ -94,7 +98,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
       playerTwo.move("RIGHT");
     }
     if (keys[6]) {
-      p2Jump = true;
+        if(!playerTwo.inAir(blocks)){
+            playerTwo.move("UP");
+            lastGrav2 = System.currentTimeMillis();
+        }
     }
     if (keys[7]) {
       playerTwo.move("DOWN");
@@ -102,23 +109,49 @@ public class Game extends Canvas implements KeyListener, Runnable {
       for(Block b : blocks){
           b.draw(graphToBack);
       }
-    if (p1Jump) {
-      playerOne.jump();
-    }
-    if (!playerOne.inAir()) {
-      playerOne.reset();
-      p1Jump = false;
-    }
-    if (p2Jump) {
-      playerTwo.jump();
-    }
-    if (!playerTwo.inAir()) {
-      playerTwo.reset();
-      p2Jump = false;
-    }
+      handleCollisions(playerOne);
+      handleCollisions(playerTwo);
+      if(System.currentTimeMillis()-lastGrav1 > gravInterval){
+          playerOne.gravity();
+          lastGrav1 = System.currentTimeMillis();
+      }
+      if(System.currentTimeMillis()-lastGrav2 > gravInterval){
+          playerTwo.gravity();
+          lastGrav2 = System.currentTimeMillis();
+      }
+      if(!playerOne.inAir(blocks)) playerOne.setYSpeed(0);
+      if(!playerTwo.inAir(blocks)) playerTwo.setYSpeed(0);
+      playerOne.setY(playerOne.getY()-playerOne.getYSpeed());
+      playerTwo.setY(playerTwo.getY()-playerTwo.getYSpeed());
+      playerOne.draw(graphToBack);
+      playerTwo.draw(graphToBack);
+      
 
     twoDGraph.drawImage(back, null, 0, 0);
   }
+    public void handleCollisions(Player p){
+        Block b;
+        b = p.didCollideTop(blocks);
+        if(b != null){
+            p.setYSpeed(0);
+            p.setY(b.getY()-p.getHeight());
+        }
+        b = p.didCollideBottom(blocks);
+        if(b != null){
+            p.setYSpeed(0);
+            p.setY(b.getY());
+        }
+        b = p.didCollideLeft(blocks);
+        if(b != null){
+            p.setXSpeed(0);
+            p.setX(b.getX()-p.getWidth());
+        }
+        b = p.didCollideRight(blocks);
+        if(b != null){
+            p.setXSpeed(0);
+            p.setX(b.getX());
+        }
+    }
 
   public void keyPressed(KeyEvent e) {
     if (e.getKeyCode() == KeyEvent.VK_LEFT) {

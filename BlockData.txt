@@ -1,3 +1,0 @@
-50 50 wood
-100 100 metal
-100 100 metal
