@@ -2,12 +2,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Canvas;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
-import static java.lang.Character.*;
 import java.awt.image.BufferedImage;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
@@ -29,7 +26,7 @@ public class Game extends Canvas implements KeyListener, Runnable {
 
   public Game() {
     setBackground(Color.black);
-    keys = new boolean[8];
+    keys = new boolean[10];
     playerOne = new Player(400, 20, 20, 20, 0, 0, 1);
     playerTwo = new Player(80, 20, 20, 20, 0, 0, 2);
     blocks = new ArrayList<Block>();
@@ -141,6 +138,13 @@ public class Game extends Canvas implements KeyListener, Runnable {
       blocks.add(new Block(playerTwo.getX(), playerTwo.getY()-(playerTwo.getHeight()+5), "wood"));
     }
 
+    if(keys[8]){
+      System.out.println("P1 Shooting");
+    }
+    if(keys[9]){
+      System.out.println("P2 Shooting");
+    }
+
 
     for (Block b : blocks) {
       b.draw(graphToBack);
@@ -174,6 +178,12 @@ public class Game extends Canvas implements KeyListener, Runnable {
     if (e.getKeyCode() == KeyEvent.VK_S) {
       keys[7] = true;
     }
+    if(e.getKeyCode() == KeyEvent.VK_SPACE){
+      keys[8] = true;
+    }
+    if(e.getKeyCode() == KeyEvent.VK_Q){
+      keys[9] = true;
+    }
     repaint();
   }
 
@@ -201,6 +211,12 @@ public class Game extends Canvas implements KeyListener, Runnable {
     }
     if (e.getKeyCode() == KeyEvent.VK_S) {
       keys[7] = false;
+    }
+    if(e.getKeyCode() == KeyEvent.VK_SPACE){
+      keys[8] = false;
+    }
+    if(e.getKeyCode() == KeyEvent.VK_Q){
+      keys[9] = false;
     }
     repaint();
   }
