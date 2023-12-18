@@ -24,7 +24,6 @@ public class PowerUps extends Player {
   }
   public void conjureEvilSpirit(Player player){
     //create an evil man that follows the other player
-    Player spirit = new Player(player.getX(), player.getY(), 50, 50, Color.RED);
   }
   public void shrink(Player player){
     //shrink player dimensions
