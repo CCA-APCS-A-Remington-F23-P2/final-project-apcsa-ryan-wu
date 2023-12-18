@@ -28,6 +28,12 @@ public class Block {
         img = ImageIO.read(url);
       } catch (Exception e) {
       }
+    } else if (type.equals("cannon")){
+      try {
+        URL url = getClass().getResource("Cannon.png");
+        img = ImageIO.read(url);
+      } catch (Exception e) {
+      }
     }
 
   }
