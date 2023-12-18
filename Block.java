@@ -72,5 +72,7 @@ public class Block {
     window.drawImage(img, getX(), getY(), getS(), getS(), null);
   }
 
-  public static boolean updateTextFile() {return true;}
+  public static boolean updateTextFile() {
+    return true;
+  }
 }

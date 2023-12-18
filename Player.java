@@ -109,6 +109,7 @@ public class Player extends MovingThing {
   public String toString() {
     return super.toString();
   }
+
   public void draw(Graphics window) {
     window.drawImage(image, getX(), getY(), getWidth(), getHeight(), null);
   }
