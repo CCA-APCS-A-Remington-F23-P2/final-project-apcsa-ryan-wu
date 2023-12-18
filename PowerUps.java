@@ -1,14 +1,14 @@
 import java.util.*;
-public class PowerUps extends Player{
+public class PowerUps extends Player {
   ArrayList<String> playerpowers = new ArrayList<String>();
   
   public void addSpeed(Player player){
-    player.setXSpeed(XSpeed+5);
-    player.setYSpeed(YSpeed+5);
+    player.setXSpeed(getXSpeed()+5);
+    player.setYSpeed(getYSpeed()+5);
   }
   public void AOE(Player player){
     for(int i=player.getX()-50; i<=player.getX()+50; i++){
-      for(int j=player.getY-50; j<=player.getY+50; j++){
+      for(int j=player.getY()-50; j<=player.getY()+50; j++){
         //if collide with something subtract life
       }
     }
@@ -22,8 +22,9 @@ public class PowerUps extends Player{
   public void wall(Player player){
     //build metal wall in front of player
   }
-  public void conjureEvilMan(Player player){
+  public void conjureEvilSpirit(Player player){
     //create an evil man that follows the other player
+    Player spirit = new Player(player.getX(), player.getY(), 50, 50, Color.RED);
   }
   public void shrink(Player player){
     //shrink player dimensions
