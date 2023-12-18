@@ -20,8 +20,8 @@ public class Game extends Canvas implements KeyListener, Runnable {
   private final long gravInterval = 75;
   private long lastGrav1 = 0;
   private long lastGrav2 = 0;
-  private final int xSpeed = 3;
-  private final int ySpeed = 5;
+  private final int xSpeed = 2;
+  private final int ySpeed = 3;
   long lastPrintTime = System.currentTimeMillis();
 
   public Game() {
@@ -39,20 +39,20 @@ public class Game extends Canvas implements KeyListener, Runnable {
 
   public void loadBlocks(boolean newMap) {
     Scanner s;
-      boolean mirror = false;
+    boolean mirror = false;
     try {
-      if (newMap){
-          s = new Scanner(new File("BlockDataDefault.txt"));
-          mirror = true;
-      }
-      else
+      if (newMap) {
+        s = new Scanner(new File("BlockDataDefault.txt"));
+        mirror = true;
+      } else
         s = new Scanner(new File("BlockData.txt"));
       while (s.hasNextLine()) {
         int x = s.nextInt() * 20;
         int y = s.nextInt() * 20;
         String t = s.next();
         blocks.add(new Block(x, y, t));
-          if(mirror) blocks.add(new Block(780-x, y, t));
+        if (mirror)
+          blocks.add(new Block(780 - x, y, t));
       }
     } catch (Exception e) {
     }
@@ -126,24 +126,27 @@ public class Game extends Canvas implements KeyListener, Runnable {
     playerTwo.draw(graphToBack);
 
     /* Player 1 Build Block on top */
-    if(keys[3] && !playerOne.blockAbove(blocks)){
+    if (keys[3] && !playerOne.blockBelow(blocks)) {
       if (System.currentTimeMillis() - lastPrintTime > 500) {
-        blocks.add(new Block(playerOne.getX(), playerOne.getY()-(playerOne.getHeight()+5), "wood"));
+        blocks.add(new Block(playerOne.getX(), playerOne.getY() + (playerOne.getHeight() + 5), "wood"));
         System.out.println("Block added");
         lastPrintTime = System.currentTimeMillis();
       }
     }
-    if(keys[7] && !playerTwo.blockAbove(blocks)){
-      blocks.add(new Block(playerTwo.getX(), playerTwo.getY()-(playerTwo.getHeight()+5), "wood"));
+    if (keys[7] && !playerTwo.blockBelow(blocks)) {
+      if (System.currentTimeMillis() - lastPrintTime > 500) {
+        blocks.add(new Block(playerTwo.getX(), playerTwo.getY() + (playerTwo.getHeight() + 5), "wood"));
+        System.out.println("Block added");
+        lastPrintTime = System.currentTimeMillis();
+      }
     }
 
-    if(keys[8]){
+    if (keys[8]) {
       System.out.println("P1 Shooting");
     }
-    if(keys[9]){
+    if (keys[9]) {
       System.out.println("P2 Shooting");
     }
-
 
     for (Block b : blocks) {
       b.draw(graphToBack);
@@ -177,10 +180,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
     if (e.getKeyCode() == KeyEvent.VK_S) {
       keys[7] = true;
     }
-    if(e.getKeyCode() == KeyEvent.VK_SPACE){
+    if (e.getKeyCode() == KeyEvent.VK_SPACE) {
       keys[8] = true;
     }
-    if(e.getKeyCode() == KeyEvent.VK_Q){
+    if (e.getKeyCode() == KeyEvent.VK_Q) {
       keys[9] = true;
     }
     repaint();
@@ -211,10 +214,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
     if (e.getKeyCode() == KeyEvent.VK_S) {
       keys[7] = false;
     }
-    if(e.getKeyCode() == KeyEvent.VK_SPACE){
+    if (e.getKeyCode() == KeyEvent.VK_SPACE) {
       keys[8] = false;
     }
-    if(e.getKeyCode() == KeyEvent.VK_Q){
+    if (e.getKeyCode() == KeyEvent.VK_Q) {
       keys[9] = false;
     }
     repaint();
