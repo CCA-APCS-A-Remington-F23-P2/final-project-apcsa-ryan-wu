@@ -25,6 +25,7 @@ public class Game extends Canvas implements KeyListener, Runnable {
   private long lastGrav2 = 0;
   private final int xSpeed = 3;
   private final int ySpeed = 5;
+  long lastPrintTime = System.currentTimeMillis();
 
   public Game() {
     setBackground(Color.black);
@@ -129,12 +130,17 @@ public class Game extends Canvas implements KeyListener, Runnable {
     playerTwo.draw(graphToBack);
 
     /* Player 1 Build Block on top */
-    if (keys[3] && !playerOne.blockAbove(blocks)) {
-      blocks.add(new Block(playerOne.getX(), playerOne.getY() - (playerOne.getHeight() + 5), "wood"));
+    if(keys[3] && !playerOne.blockAbove(blocks)){
+      if (System.currentTimeMillis() - lastPrintTime > 500) {
+        blocks.add(new Block(playerOne.getX(), playerOne.getY()-(playerOne.getHeight()+5), "wood"));
+        System.out.println("Block added");
+        lastPrintTime = System.currentTimeMillis();
+      }
     }
-    if (keys[7] && !playerTwo.blockAbove(blocks)) {
-      blocks.add(new Block(playerTwo.getX(), playerTwo.getY() - (playerTwo.getHeight() + 5), "wood"));
+    if(keys[7] && !playerTwo.blockAbove(blocks)){
+      blocks.add(new Block(playerTwo.getX(), playerTwo.getY()-(playerTwo.getHeight()+5), "wood"));
     }
+
 
     for (Block b : blocks) {
       b.draw(graphToBack);
