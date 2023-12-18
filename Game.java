@@ -31,11 +31,6 @@ public class Game extends Canvas implements KeyListener, Runnable {
     playerTwo = new Player(80, 20, 20, 20, 0, 0, 2);
     blocks = new ArrayList<Block>();
     loadBlocks(true);
-    blocks.add(new Block(400, 450, "wood"));
-    blocks.add(new Block(420, 450, "wood"));
-    blocks.add(new Block(440, 450, "wood"));
-    blocks.add(new Block(460, 450, "wood"));
-    blocks.add(new Block(480, 450, "wood"));
     this.addKeyListener(this);
     new Thread(this).start();
 
@@ -44,9 +39,12 @@ public class Game extends Canvas implements KeyListener, Runnable {
 
   public void loadBlocks(boolean newMap) {
     Scanner s;
+      boolean mirror = false;
     try {
-      if (newMap)
-        s = new Scanner(new File("BlockDataDefault.txt"));
+      if (newMap){
+          s = new Scanner(new File("BlockDataDefault.txt"));
+          mirror = true;
+      }
       else
         s = new Scanner(new File("BlockData.txt"));
       while (s.hasNextLine()) {
@@ -54,6 +52,7 @@ public class Game extends Canvas implements KeyListener, Runnable {
         int y = s.nextInt() * 20;
         String t = s.next();
         blocks.add(new Block(x, y, t));
+          if(mirror) blocks.add(new Block(780-x, y, t));
       }
     } catch (Exception e) {
     }

@@ -69,3 +69,8 @@
 10 6 wood
 11 6 wood
 12 6 wood
+7 11 wood
+8 11 wood
+9 11 wood
+10 11 wood
+11 11 wood
