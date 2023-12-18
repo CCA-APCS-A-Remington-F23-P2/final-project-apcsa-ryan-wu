@@ -8,10 +8,15 @@ public class Block {
   private int x;
   private int y;
   private int s; // s by s block
-  private int h; // # hits to die
+  private int h=1; // # hits to die
   private Image img;
   private String type;
-
+  public Block(){
+    this.x=0;
+    this.y=0;
+    s=20;
+    h=1;
+  }
   public Block(int x, int y, String type) {
     this.x = x;
     this.y = y;
@@ -20,18 +25,21 @@ public class Block {
       try {
         URL url = getClass().getResource("BrownBlock.jpeg");
         img = ImageIO.read(url);
+        h=1;
       } catch (Exception e) {
       }
     } else if (type.equals("metal")) {
       try {
         URL url = getClass().getResource("GreyBlock.png");
         img = ImageIO.read(url);
+        h=3;
       } catch (Exception e) {
       }
     } else if (type.equals("cannon")){
       try {
         URL url = getClass().getResource("Cannon.png");
         img = ImageIO.read(url);
+        h=1000;
       } catch (Exception e) {
       }
     }
