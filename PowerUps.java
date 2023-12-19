@@ -93,32 +93,40 @@ public class PowerUps extends Player {
       horizontal=true;
     if(horizontal==false&&getFaceRight()){
       player.setX(endx);
+      for(int i=0; i<Game.getBlockSize(); i++){
     if(Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getX()<biggerx && Game.getBlocks(i).getY()>starty+40 && Game.getBlocks(i).getY()<endy-40){
       Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
       
     }
+    }
   }
     if(horizontal==false&&!getFaceRight()){
       player.setX(endx);
+      for(int i=0; i<Game.getBlockSize(); i++){
     if(Game.getBlocks(i).getX()<biggerx && Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getY()<starty+40 && Game.getBlocks(i).getY()>endy-40){
       Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
       
+    }
     }
   }
     if(horizontal==true&&getFaceRight()){
       player.setX(endx);
       player.setY(endy);
+      for(int i=0; i<Game.getBlockSize(); i++){
       if(Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getX()<biggerx && Game.getBlocks(i).getY()>smallery && Game.getBlocks(i).getY()<biggery){
       Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
 
+    }
     }
   }
     if(horizontal==true&&!getFaceRight()){
       player.setX(endx);
       player.setY(endy);
-      if(Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getX()<greaterx && Game.getBlocks(i).getY()>smallery && Game.getBlocks(i).getY()<greatery){
+      for(int i=0; i<Game.getBlockSize(); i++){
+      if(Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getX()<biggerx && Game.getBlocks(i).getY()>smallery && Game.getBlocks(i).getY()<biggery){
       Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
 
+    }
     }
   }
   
