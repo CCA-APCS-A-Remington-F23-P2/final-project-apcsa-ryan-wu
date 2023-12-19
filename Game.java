@@ -52,7 +52,7 @@ public class Game extends Canvas implements KeyListener, Runnable {
         String t = s.next();
         blocks.add(new Block(x, y, t));
         if (mirror)
-          blocks.add(new Block(780 - x, y, t));
+          blocks.add(new Block(760 - x, y, t));
       }
     } catch (Exception e) {
     }
