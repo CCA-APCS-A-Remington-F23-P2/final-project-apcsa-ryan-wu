@@ -42,6 +42,13 @@ public class Block {
         h=1000;
       } catch (Exception e) {
       }
+    } else if (type.equals("barrier")){
+      try {
+        URL url = getClass().getResource("BlackBlock.png");
+        img = ImageIO.read(url);
+        h=1000;
+      } catch (Exception e) {
+      }
     }
 
   }
