@@ -18,6 +18,7 @@
 17 26 metal
 18 26 metal
 19 26 metal
+
 0 0 metal
 0 1 metal
 0 2 metal
@@ -44,22 +45,47 @@
 0 23 metal
 0 24 metal
 0 25 metal
+
+1 0 metal
+2 0 metal
+3 0 metal
+4 0 metal
+5 0 metal
+6 0 metal
+7 0 metal
+8 0 metal
+9 0 metal
+10 0 metal
+11 0 metal
+12 0 metal
+13 0 metal
+14 0 metal
+15 0 metal
+16 0 metal
+17 0 metal
+18 0 metal
+19 0 metal
+
 12 6 wood
 12 7 wood
 12 8 wood
 12 9 wood
-12 10 wood
+12 10 cannon
 12 11 wood
 12 12 wood
 12 13 wood
-12 14 wood
+12 14 cannon
 12 15 wood
 12 16 wood
 12 17 wood
-12 18 wood
+12 18 cannon
 12 19 wood
 12 20 wood
 12 21 wood
+
+6 7 wood
+7 8 wood
+
 1 6 wood
 2 6 wood
 3 6 wood
@@ -69,8 +95,32 @@
 10 6 wood
 11 6 wood
 12 6 wood
+
 7 11 wood
 8 11 wood
 9 11 wood
 10 11 wood
 11 11 wood
+
+1 11 wood
+2 12 wood
+3 13 wood
+4 14 wood
+5 15 wood
+6 16 wood
+
+10 15 wood
+11 15 wood
+
+1 16 wood
+2 17 wood
+3 18 wood
+4 19 wood
+5 20 wood
+6 21 wood
+7 22 wood
+8 23 wood
+
+9 19 wood
+10 19 wood
+11 19 wood

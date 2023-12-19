@@ -21,14 +21,14 @@ public class Game extends Canvas implements KeyListener, Runnable {
   private long lastGrav1 = 0;
   private long lastGrav2 = 0;
   private final int xSpeed = 2;
-  private final int ySpeed = 3;
+  private final int ySpeed = 4;
   long lastPrintTime = System.currentTimeMillis();
 
   public Game() {
     setBackground(Color.black);
     keys = new boolean[10];
-    playerOne = new Player(400, 20, 20, 20, 0, 0, 1);
-    playerTwo = new Player(80, 20, 20, 20, 0, 0, 2);
+    playerOne = new Player(680, 30, 18, 18, 0, 0, 1);
+    playerTwo = new Player(80, 30, 18, 18, 0, 0, 2);
     blocks = new ArrayList<Block>();
     loadBlocks(true);
     this.addKeyListener(this);
@@ -50,9 +50,13 @@ public class Game extends Canvas implements KeyListener, Runnable {
         int x = s.nextInt() * 20;
         int y = s.nextInt() * 20;
         String t = s.next();
-        blocks.add(new Block(x, y, t));
-        if (mirror)
-          blocks.add(new Block(760 - x, y, t));
+        if(t.equals("cannon")){
+            blocks.add(new Cannon(x, y, "cannon"));
+            if(mirror) blocks.add(new Cannon(760-x, y, "reversecannon"));
+        } else{
+            blocks.add(new Block(x, y, t));
+            if(mirror) blocks.add(new Block(760-x, y, t));
+        }
       }
     } catch (Exception e) {
     }

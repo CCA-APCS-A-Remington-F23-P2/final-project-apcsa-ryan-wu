@@ -20,6 +20,7 @@ public class Block {
   public Block(int x, int y, String type) {
     this.x = x;
     this.y = y;
+      this.type = type;
     s = 20;
     if (type.equals("wood")) {
       try {
@@ -35,7 +36,7 @@ public class Block {
         h=3;
       } catch (Exception e) {
       }
-    } else if (type.equals("cannon")){
+    } else if (type.contains("cannon")){ // cannonR or cannonL
       try {
         URL url = getClass().getResource("Cannon.png");
         img = ImageIO.read(url);
@@ -83,7 +84,8 @@ public class Block {
   }
 
   public void draw(Graphics window) {
-    window.drawImage(img, getX(), getY(), getS(), getS(), null);
+      if(type.equals("cannon")) window.drawImage(img, getX()+getS(), getY(), -getS(), getS(), null);
+      else window.drawImage(img, getX(), getY(), getS(), getS(), null);
   }
 
   public static boolean updateTextFile() {
