@@ -3,6 +3,7 @@ import java.awt.Color;
 
 public class PowerUps extends Player {
   ArrayList<String> playerpowers = new ArrayList<String>();
+  Player otherplayer;
 
   public void empower(Player player) {
     // give player temporary speed and damage boost
@@ -10,11 +11,14 @@ public class PowerUps extends Player {
     player.setYSpeed(getYSpeed() + 5);
   }
 
-  public void AOE(Player player) {
+  public void AOE(Player player, Player otherplayer) {
     // deal damage to all blocks and enemies around player
   for(int i=0; i<Game.getBlockSize(); i++){
     if(Game.getBlocks(i).getX()>player.getX()-100 && Game.getBlocks(i).getX()<player.getX()+100 && Game.getBlocks(i).getY()>player.getY()-100 && Game.getBlocks(i).getY()<player.getY()+100){
       Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
+    }
+    if(otherplayer.getX()>player.getX()-100 && otherplayer.getX()<player.getX()+100 && otherplayer.getY()>player.getY()-100 && otherplayer.getY()<player.getY()+100){
+      otherplayer.setHealth(otherplayer.getHealth()-2);
     }
   }
   }
@@ -29,7 +33,7 @@ public class PowerUps extends Player {
   }
 
   public void wall(Player player) {
-    // build a metal wall in front of player
+    // build a 2x4 metal wall in front of player
     if(player.getFaceRight()){
     for(int i=0; i<4; i++){
     Game.addBlock(new Block(player.getX()+player.getWidth()+5, player.getY()-20*i, "metal"));
@@ -49,6 +53,74 @@ public class PowerUps extends Player {
 
   public void flashStrike(Player player){
     // teleport player ~7.5 blocks in direction they are going, damaging everything between starting and ending point
+    int yd=0;
+    if(player.getYSpeed()==0) yd=0;
+    if(player.getYSpeed()>0) yd=1;
+    if(player.getYSpeed()<0) yd=-1;
+    int xd=0;
+    if(player.getFaceRight()==true) xd=1;
+    if(player.getFaceRight()==false) xd=-1;
+    int startx=player.getX();
+    int starty=player.getY();
+    int endx=player.getX()+xd*150;
+    int endy=player.getY()+yd*150;
+    if(endx>800) endx=800;
+    if(endx<0) endx=0;
+    if(endy>600) endy=600;
+    if(endy<0) endy=0;
+    int biggerx=0;
+    int smallerx=0;
+    int biggery=0;
+    int smallery=0;
+    if(startx>endx){
+      biggerx=startx;
+      smallerx=endx;
+    }
+    if(startx<=endx){
+      biggerx=endx;
+      smallerx=endx;
+    }
+    if(starty>endy){
+      biggery=starty;
+      smallery=endy;
+    }
+    if(starty<=endy){
+      biggery=endy;
+      smallery=starty;
+    }
+    boolean horizontal=false;
+    if(yd!=0)
+      horizontal=true;
+    if(horizontal==false&&getFaceRight()){
+      player.setX(endx);
+    if(Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getX()<biggerx && Game.getBlocks(i).getY()>starty+40 && Game.getBlocks(i).getY()<endy-40){
+      Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
+      
+    }
   }
+    if(horizontal==false&&!getFaceRight()){
+      player.setX(endx);
+    if(Game.getBlocks(i).getX()<biggerx && Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getY()<starty+40 && Game.getBlocks(i).getY()>endy-40){
+      Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
+      
+    }
+  }
+    if(horizontal==true&&getFaceRight()){
+      player.setX(endx);
+      player.setY(endy);
+      if(Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getX()<biggerx && Game.getBlocks(i).getY()>smallery && Game.getBlocks(i).getY()<biggery){
+      Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
 
+    }
+  }
+    if(horizontal==true&&!getFaceRight()){
+      player.setX(endx);
+      player.setY(endy);
+      if(Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getX()<greaterx && Game.getBlocks(i).getY()>smallery && Game.getBlocks(i).getY()<greatery){
+      Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
+
+    }
+  }
+  
+}
 }
