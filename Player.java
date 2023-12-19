@@ -157,4 +157,22 @@ public class Player extends MovingThing {
     return ret;
   }
 
+  public boolean blockRight(Block b) {
+    boolean ret = false;
+    setX(getX() + 1);
+    if (isTouching(b))
+      ret = true;
+    setX(getX() - 1);
+    return ret;
+  }
+
+  public boolean blockLeft(Block b) {
+    boolean ret = false;
+    setX(getX() - 1);
+    if (isTouching(b))
+      ret = true;
+    setX(getX() + 1);
+    return ret;
+  }
+
 }

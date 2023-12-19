@@ -2,8 +2,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.net.URL;
 import javax.imageio.ImageIO;
+import java.util.List;
 
-public class Block {
+public class Block extends MovingThing {
 
   private int x;
   private int y;
@@ -98,6 +99,10 @@ public class Block {
       else window.drawImage(img, getX(), getY(), getS(), getS(), null);
   }
 
+  public void move(List<Block> blocks) {
+    
+  }
+  
   public static boolean updateTextFile() {
     return true;
   }

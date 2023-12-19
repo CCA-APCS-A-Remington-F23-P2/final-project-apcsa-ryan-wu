@@ -23,6 +23,14 @@ public class Game extends Canvas implements KeyListener, Runnable {
   private final int xSpeed = 2;
   private final int ySpeed = 4;
   long lastPrintTime = System.currentTimeMillis();
+  private long lastCannon1Shot = 0;
+  private long lastPlayer2Shot = 0;
+  private long lastCannon2Shot = 0;
+  private long lastPlayer1Shot = 0;
+  private Bullets cannon1;
+  private Bullets player2;
+  private Bullets cannon2;
+  private Bullets player1;
   
   public static void addBlock(Block a){
     blocks.add(a);
@@ -41,6 +49,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
     playerTwo = new Player(80, 30, 18, 18, 15, 0, 0, 2);
     blocks = new ArrayList<Block>();
     loadBlocks(true);
+    cannon1 = new Bullets();
+    player2 = new Bullets();
+    cannon2 = new Bullets();
+    player1 = new Bullets();
     this.addKeyListener(this);
     new Thread(this).start();
 
@@ -139,9 +151,17 @@ public class Game extends Canvas implements KeyListener, Runnable {
 
     playerOne.move(blocks);
     playerTwo.move(blocks);
+    cannon1.move("RIGHT");
+    player2.move("RIGHT");
+    cannon2.move("LEFT");
+    player1.move("LEFT");
 
     playerOne.draw(graphToBack);
     playerTwo.draw(graphToBack);
+    cannon1.draw(graphToBack);
+    player2.draw(graphToBack);
+    cannon2.draw(graphToBack);
+    player1.draw(graphToBack);
 
     /* Player 1 Build Block on top */
     if (keys[3] && !playerOne.blockBelow(blocks)) {
@@ -160,10 +180,40 @@ public class Game extends Canvas implements KeyListener, Runnable {
     }
 
     if (keys[8]) {
-      System.out.println("P1 Shooting");
+      boolean player1Shot = true;
+      for (Block b : blocks) {
+        if (b.getClass() == Cannon.class && playerOne.blockLeft(b)) {
+          player1Shot = false;
+          if (System.currentTimeMillis() - lastCannon2Shot > 500) {
+            cannon2.add(new Ammo(b.getX() + 15, b.getY() + 5, 10, 10, 3));
+            lastCannon2Shot = System.currentTimeMillis();
+          }
+        }
+      }
+      if (player1Shot) {
+        if (System.currentTimeMillis() - lastPlayer1Shot > 250) {
+          player1.add(new Ammo(playerOne.getX() + 15, playerOne.getY() + 6, 5, 5, 5));
+          lastPlayer1Shot = System.currentTimeMillis();
+        }
+      }
     }
     if (keys[9]) {
-      System.out.println("P2 Shooting");
+      boolean player2Shot = true;
+      for (Block b : blocks) {
+        if (b.getClass() == Cannon.class && playerTwo.blockRight(b)) {
+          player2Shot = false;
+          if (System.currentTimeMillis() - lastCannon1Shot > 500) {
+            cannon1.add(new Ammo(b.getX() + 15, b.getY() + 5, 10, 10, 3));
+            lastCannon1Shot = System.currentTimeMillis();
+          }
+        }
+      }
+      if (player2Shot) {
+        if (System.currentTimeMillis() - lastPlayer2Shot > 250) {
+          player2.add(new Ammo(playerTwo.getX() + 15, playerTwo.getY() + 6, 5, 5, 5));
+          lastPlayer2Shot = System.currentTimeMillis();
+        }
+      }
     }
     //remove destroyed blocks
     for (int i = 0; i < blocks.size(); i++) {

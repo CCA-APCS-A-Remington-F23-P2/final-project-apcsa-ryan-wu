@@ -9,6 +9,11 @@ public class Ammo extends MovingThing {
     this(0, 0, 1);
   }
 
+  public Ammo(int x, int y, int w, int h, int s) {
+    super(x, y, w, h);
+    speed = s;
+  }
+  
   public Ammo(int x, int y) {
     this(x, y, 1);
   }
@@ -28,7 +33,7 @@ public class Ammo extends MovingThing {
 
   public void draw(Graphics window) {
     window.setColor(Color.BLUE);
-    window.fillRect(getX(), getY(), 10, 5);
+    window.fillRect(getX(), getY(), getWidth(), getHeight());
   }
   public void draw(Graphics window, Color color) {
     window.setColor(color);
