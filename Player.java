@@ -13,29 +13,29 @@ public class Player extends MovingThing {
   private Image image;
   private int count = 0;
   private long lastJump = 0;
-
+  private boolean faceRight;
   public Player() {
-    this(10, 10, 10, 10, 1, 1, 1);
+    this(10, 10, 10, 10, 10, 1, 1, 1);
   }
 
   public Player(int player) {
-    this(10, 10, 10, 10, 1, 1, player);
+    this(10, 10, 10, 10, 10, 1, 1, player);
   }
 
   public Player(int x, int y, int player) {
     // add code here
-    this(x, y, 10, 10, 1, 1, player);
+    this(x, y, 10, 10, 10, 1, 1, player);
   }
 
   public Player(int x, int y, int ys, int xs, int player) {
     // add code here
-    this(x, y, 10, 10, ys, xs, player);
+    this(x, y, 10, 10, 10, ys, xs, player);
 
   }
 
   // all ctors call this ctor
-  public Player(int x, int y, int w, int h, int ys, int xs, int player) {
-    super(x, y, w, h);
+  public Player(int x, int y, int w, int h, int hp, int ys, int xs, int player) {
+    super(x, y, w, h, hp);
     ySpeed = ys;
     xSpeed = xs;
     if (player == 1) {
@@ -68,6 +68,12 @@ public class Player extends MovingThing {
 
   public int getXSpeed() {
     return xSpeed;
+  }
+  public boolean getFaceRight() {
+    return faceRight;
+  }
+  public void setFaceRight(boolean b) {
+    faceRight = b;
   }
 
   public void move(List<Block> blocks) {

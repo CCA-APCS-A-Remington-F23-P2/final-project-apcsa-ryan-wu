@@ -7,12 +7,14 @@ public abstract class MovingThing {
   private int yPos;
   private int width;
   private int height;
+  private int health;
 
   public MovingThing() {
     xPos = 10;
     yPos = 10;
     width = 10;
     height = 10;
+    health = 1;
   }
 
   public MovingThing(int x, int y) {
@@ -20,14 +22,16 @@ public abstract class MovingThing {
     yPos = y;
     width = 10;
     height = 10;
+    health = 1;
   }
 
-  public MovingThing(int x, int y, int w, int h) {
+  public MovingThing(int x, int y, int w, int h, int hp) {
     // add code here
     xPos = x;
     yPos = y;
     width = w;
     height = h;
+    health = hp;
   }
 
   public void setPos(int x, int y) {
@@ -71,7 +75,12 @@ public abstract class MovingThing {
   public int getHeight() {
     return height; // finish this method
   }
-
+  public void setHealth(int hp) {
+    health = hp;
+  }
+  public int getHealth() {
+    return health;
+  }
   public abstract void move(List<Block> blocks);
 
   public abstract void draw(Graphics window);

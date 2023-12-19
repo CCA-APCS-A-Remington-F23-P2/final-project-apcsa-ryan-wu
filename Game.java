@@ -16,19 +16,29 @@ public class Game extends Canvas implements KeyListener, Runnable {
   private BufferedImage back;
   private Player playerOne;
   private Player playerTwo;
-  private List<Block> blocks;
+  public static List<Block> blocks;
   private final long gravInterval = 75;
   private long lastGrav1 = 0;
   private long lastGrav2 = 0;
   private final int xSpeed = 2;
   private final int ySpeed = 4;
   long lastPrintTime = System.currentTimeMillis();
-
+  
+  public static void addBlock(Block a){
+    blocks.add(a);
+  }
+  public static Block getBlocks(int i){
+    return blocks.get(i);
+  }
+  public static int getBlockSize(){
+    return blocks.size();
+  }
+  
   public Game() {
     setBackground(Color.black);
     keys = new boolean[10];
-    playerOne = new Player(680, 30, 18, 18, 0, 0, 1);
-    playerTwo = new Player(80, 30, 18, 18, 0, 0, 2);
+    playerOne = new Player(680, 30, 18, 18, 15, 0, 0, 1);
+    playerTwo = new Player(80, 30, 18, 18, 15, 0, 0, 2);
     blocks = new ArrayList<Block>();
     loadBlocks(true);
     this.addKeyListener(this);
@@ -98,11 +108,13 @@ public class Game extends Canvas implements KeyListener, Runnable {
       playerOne.setYSpeed(-1);
     if (playerTwo.blockAbove(blocks))
       playerTwo.setYSpeed(-1);
-    if (keys[0] && !keys[1])
+    if (keys[0] && !keys[1]){
       playerOne.setXSpeed(-xSpeed);
-    else if (!keys[0] && keys[1])
+      playerOne.setFaceRight(false);
+    }else if (!keys[0] && keys[1]){
       playerOne.setXSpeed(xSpeed);
-    else
+      playerOne.setFaceRight(true);
+    }else
       playerOne.setXSpeed(0);
     if (keys[2] && playerOne.blockBelow(blocks)) {
       playerOne.setYSpeed(ySpeed);
@@ -110,11 +122,13 @@ public class Game extends Canvas implements KeyListener, Runnable {
     }
     if (keys[3])
       playerOne.build();
-    if (keys[4] && !keys[5])
+    if (keys[4] && !keys[5]){
       playerTwo.setXSpeed(-xSpeed);
-    else if (!keys[4] && keys[5])
+      playerTwo.setFaceRight(false);
+    }else if (!keys[4] && keys[5]){
       playerTwo.setXSpeed(xSpeed);
-    else
+      playerTwo.setFaceRight(true);
+    }else
       playerTwo.setXSpeed(0);
     if (keys[6] && playerTwo.blockBelow(blocks)) {
       playerTwo.setYSpeed(ySpeed);
@@ -150,6 +164,11 @@ public class Game extends Canvas implements KeyListener, Runnable {
     }
     if (keys[9]) {
       System.out.println("P2 Shooting");
+    }
+    //remove destroyed blocks
+    for (int i = 0; i < blocks.size(); i++) {
+    if(blocks.get(i).getHealth()<=0) 
+      blocks.remove(i);
     }
 
     for (Block b : blocks) {

@@ -69,6 +69,9 @@ public class Block {
   public int getHealth() {
     return h;
   }
+  public void setHealth(int x) {
+    h=x;
+  }
 
   public void setX(int x) {
     this.x = x;
