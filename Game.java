@@ -156,10 +156,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
     player2.move("RIGHT");
     cannon2.move("LEFT");
     player1.move("LEFT");
-    player1.detectCollision(blocks);
-    player2.detectCollision(blocks);
-    cannon1.detectCollision(blocks);
-    cannon2.detectCollision(blocks);
+    player1.detectCollision(blocks, playerOne, playerTwo);
+    player2.detectCollision(blocks, playerOne, playerTwo);
+    cannon1.detectCollision(blocks, playerOne, playerTwo);
+    cannon2.detectCollision(blocks, playerOne, playerTwo);
 
     playerOne.draw(graphToBack);
     playerTwo.draw(graphToBack);
@@ -197,7 +197,7 @@ public class Game extends Canvas implements KeyListener, Runnable {
       }
       if (player1Shot) {
         if (System.currentTimeMillis() - lastPlayer1Shot > 250) {
-          player1.add(new Ammo(playerOne.getX() + 15, playerOne.getY() + 6, 5, 5, 5, false));
+          player1.add(new Ammo(playerOne.getX() - 10, playerOne.getY() + 6, 5, 5, 5, false));
           lastPlayer1Shot = System.currentTimeMillis();
         }
       }

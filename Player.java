@@ -53,6 +53,7 @@ public class Player extends MovingThing {
       } catch (Exception e) {
       }
     }
+      faceRight = (player == 2);
   }
 
   public void setYSpeed(int s) {
