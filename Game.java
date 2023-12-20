@@ -228,6 +228,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
     for (Block b : blocks) {
       b.draw(graphToBack);
     }
+      graphToBack.setColor(Color.GREEN);
+      if()
+      graphToBack.drawString("lives: " + playerOne.getLives(), 20, 20);
+      graphToBack.drawString("lives: " + playerTwo.getLives(), 700, 20);
 
     twoDGraph.drawImage(back, null, 0, 0);
   }

@@ -14,6 +14,7 @@ public class Player extends MovingThing {
   private int count = 0;
   private long lastJump = 0;
   private boolean faceRight;
+    private int lives = 5;
   public Player() {
     this(10, 10, 10, 10, 10, 1, 1, 1);
   }
@@ -75,6 +76,8 @@ public class Player extends MovingThing {
   public void setFaceRight(boolean b) {
     faceRight = b;
   }
+    public int getLives(){ return lives; }
+    public void setLives(int x){ lives = x; }
 
   public void move(List<Block> blocks) {
     double dx = getXSpeed() / 10.0;
