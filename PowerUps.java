@@ -18,7 +18,7 @@ public class PowerUps extends Player {
       Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
     }
     if(otherplayer.getX()>player.getX()-100 && otherplayer.getX()<player.getX()+100 && otherplayer.getY()>player.getY()-100 && otherplayer.getY()<player.getY()+100){
-      otherplayer.setHealth(otherplayer.getHealth()-2);
+      otherplayer.setHealth(otherplayer.getHealth()-4);
     }
   }
   }
@@ -51,7 +51,7 @@ public class PowerUps extends Player {
     // create an evil spirit that follows the other player in both x and y axis. Phases through walls and damages enemies during contact
   }
 
-  public void flashStrike(Player player){
+  public void flashStrike(Player player, Player otherplayer){
     // teleport player ~7.5 blocks in direction they are going, damaging everything between starting and ending point
     int yd=0;
     if(player.getYSpeed()==0) yd=0;
@@ -91,44 +91,36 @@ public class PowerUps extends Player {
     boolean horizontal=false;
     if(yd!=0)
       horizontal=true;
-    if(horizontal==false&&getFaceRight()){
+    if(horizontal==false){
       player.setX(endx);
       for(int i=0; i<Game.getBlockSize(); i++){
     if(Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getX()<biggerx && Game.getBlocks(i).getY()>starty+40 && Game.getBlocks(i).getY()<endy-40){
-      Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
+      Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-1);
       
     }
     }
+      if(otherplayer.getX()>smallerx && otherplayer.getX()<biggerx && otherplayer.getY()>smallery && otherplayer.getY()<biggery){
+        otherplayer.setHealth(otherplayer.getHealth()-3);
+      }
   }
-    if(horizontal==false&&!getFaceRight()){
-      player.setX(endx);
-      for(int i=0; i<Game.getBlockSize(); i++){
-    if(Game.getBlocks(i).getX()<biggerx && Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getY()<starty+40 && Game.getBlocks(i).getY()>endy-40){
-      Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
-      
-    }
-    }
-  }
-    if(horizontal==true&&getFaceRight()){
+    if(horizontal==true){
       player.setX(endx);
       player.setY(endy);
+      int slope=-1;
+      if(endy-starty>0 && endx-startx>0 || starty-endy>0 && startx-endx>0)
+        slope=1;
       for(int i=0; i<Game.getBlockSize(); i++){
-      if(Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getX()<biggerx && Game.getBlocks(i).getY()>smallery && Game.getBlocks(i).getY()<biggery){
-      Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
-
+        for(int j=smallerx; j<biggerx; j+=20){
+          if(Game.getBlocks(i).getX()==j && Game.getBlocks(i).getY()<=slope*j+starty+40 && Game.getBlocks(i).getY()>=slope*j+starty-40){
+            Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-1);
+            }
+          }
+        }
+        for(int j=smallerx; j<biggerx; j+=20){
+          if(otherplayer.getX()>smallerx && otherplayer.getX()<biggerx && otherplayer.getY()>=slope*j*starty+40 && otherplayer.getY()<=slope*j+starty-40){
+            otherplayer.setHealth(otherplayer.getHealth()-3);
+        }
     }
     }
   }
-    if(horizontal==true&&!getFaceRight()){
-      player.setX(endx);
-      player.setY(endy);
-      for(int i=0; i<Game.getBlockSize(); i++){
-      if(Game.getBlocks(i).getX()>smallerx && Game.getBlocks(i).getX()<biggerx && Game.getBlocks(i).getY()>smallery && Game.getBlocks(i).getY()<biggery){
-      Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
-
-    }
-    }
-  }
-  
-}
 }
