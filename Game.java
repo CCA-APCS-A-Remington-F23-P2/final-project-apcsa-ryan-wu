@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
 import java.util.Scanner;
+import java.awt.Font;
 
 public class Game extends Canvas implements KeyListener, Runnable {
 
@@ -228,10 +229,21 @@ public class Game extends Canvas implements KeyListener, Runnable {
     for (Block b : blocks) {
       b.draw(graphToBack);
     }
+      
+      if(playerOne.getY() > 580){
+          playerOne.setLives(0);
+      }
+      if(playerTwo.getY() > 580){
+          playerTwo.setLives(0);
+      }
       graphToBack.setColor(Color.GREEN);
-      if()
-      graphToBack.drawString("lives: " + playerOne.getLives(), 20, 20);
-      graphToBack.drawString("lives: " + playerTwo.getLives(), 700, 20);
+      graphToBack.drawString("lives: " + playerTwo.getLives(), 20, 20);
+      graphToBack.drawString("lives: " + playerOne.getLives(), 700, 20);
+      if(playerOne.getLives()==0 || playerTwo.getLives()==0){
+          graphToBack.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+          graphToBack.setColor(Color.RED);
+          graphToBack.drawString("GAME OVER", 300, 250);
+      }
 
     twoDGraph.drawImage(back, null, 0, 0);
   }
