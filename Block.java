@@ -18,6 +18,9 @@ public class Block extends MovingThing {
     s=20;
     h=1;
   }
+    public Block(int x, int y, int w, int h){
+        super(x, y, w, h);
+    }
   public Block(int x, int y, String type) {
     this.x = x;
     this.y = y;

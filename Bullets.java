@@ -33,6 +33,19 @@ public class Bullets
     }
   }
 
+    public void explode(List<Block> blocks, int x, int y, int r){
+        for(int i = 0; i < blocks.size(); i++){
+            Block b = blocks.get(i);
+            if(b.segmentsOverlap(x-20*r, x+20*r, b.getX(), b.getX()+b.getWidth())
+              && b.segmentsOverlap(y-20*r, y+20*4, b.getY(), b.getY()+b.getHeight())){
+                b.setHealth(b.getHealth()-1);
+                if(b.getHealth() < 1){
+                    blocks.remove(i--);
+                }
+            }
+        }
+    }
+
     public void detectCollision(List<Block> blocks){
         for(int i = 0; i < blocks.size(); i++){
             for(int j = 0; j < ammo.size(); j++){
@@ -40,15 +53,14 @@ public class Bullets
                 Ammo a = ammo.get(j);
                 if(b.didCollide(a)){
                     if(a.getCannonAmmo()){
-                        // explode
-                        
+                        explode(blocks, b.getX(), b.getY(), 4);
+                    } else{
+                        b.setHealth(b.getHealth()-1);
+                        if(b.getHealth() < 1){
+                            blocks.remove(i--);
+                        }
                     }
-                    // remove this ammo and dec block health by 1, if health<1 remove it
                     ammo.remove(j--);
-                    b.setHealth(b.getHealth()-1);
-                    if(b.getHealth() < 1){
-                        blocks.remove(i--);
-                    }
                 }
             }
         }

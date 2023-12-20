@@ -189,7 +189,7 @@ public class Game extends Canvas implements KeyListener, Runnable {
         if (b.getClass() == Cannon.class && playerOne.blockLeft(b)) {
           player1Shot = false;
           if (System.currentTimeMillis() - lastCannon2Shot > 500) {
-            cannon2.add(new Ammo(b.getX() + 15, b.getY() + 5, 10, 10, 3, true));
+            cannon2.add(new Ammo(b.getX()-10, b.getY() + 5, 10, 10, 3, true));
             lastCannon2Shot = System.currentTimeMillis();
           }
         }

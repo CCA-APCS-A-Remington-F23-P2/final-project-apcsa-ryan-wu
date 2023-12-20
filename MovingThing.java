@@ -93,7 +93,7 @@ public abstract class MovingThing {
 
   public abstract void draw(Graphics window);
 
-  private boolean segmentsOverlap(int s1, int e1, int s2, int e2) {
+  public boolean segmentsOverlap(int s1, int e1, int s2, int e2) {
     if (s1 < s2) {
       return e1 >= s2;
     } else {

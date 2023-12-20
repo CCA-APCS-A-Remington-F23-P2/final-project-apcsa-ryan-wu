@@ -120,7 +120,7 @@ public class Player extends MovingThing {
     window.drawImage(image, getX(), getY(), getWidth(), getHeight(), null);
   }
 
-  private boolean segmentsOverlap(int s1, int e1, int s2, int e2) {
+  public boolean segmentsOverlap(int s1, int e1, int s2, int e2) {
     if (s1 < s2)
       return e1 >= s2;
     else
