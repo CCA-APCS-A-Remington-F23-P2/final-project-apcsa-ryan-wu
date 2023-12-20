@@ -155,6 +155,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
     player2.move("RIGHT");
     cannon2.move("LEFT");
     player1.move("LEFT");
+    player1.detectCollision(blocks);
+    player2.detectCollision(blocks);
+    cannon1.detectCollision(blocks);
+    cannon2.detectCollision(blocks);
 
     playerOne.draw(graphToBack);
     playerTwo.draw(graphToBack);
@@ -185,14 +189,14 @@ public class Game extends Canvas implements KeyListener, Runnable {
         if (b.getClass() == Cannon.class && playerOne.blockLeft(b)) {
           player1Shot = false;
           if (System.currentTimeMillis() - lastCannon2Shot > 500) {
-            cannon2.add(new Ammo(b.getX() + 15, b.getY() + 5, 10, 10, 3));
+            cannon2.add(new Ammo(b.getX() + 15, b.getY() + 5, 10, 10, 3, true));
             lastCannon2Shot = System.currentTimeMillis();
           }
         }
       }
       if (player1Shot) {
         if (System.currentTimeMillis() - lastPlayer1Shot > 250) {
-          player1.add(new Ammo(playerOne.getX() + 15, playerOne.getY() + 6, 5, 5, 5));
+          player1.add(new Ammo(playerOne.getX() + 15, playerOne.getY() + 6, 5, 5, 5, false));
           lastPlayer1Shot = System.currentTimeMillis();
         }
       }
@@ -203,14 +207,14 @@ public class Game extends Canvas implements KeyListener, Runnable {
         if (b.getClass() == Cannon.class && playerTwo.blockRight(b)) {
           player2Shot = false;
           if (System.currentTimeMillis() - lastCannon1Shot > 500) {
-            cannon1.add(new Ammo(b.getX() + 15, b.getY() + 5, 10, 10, 3));
+            cannon1.add(new Ammo(b.getX() + 15, b.getY() + 5, 10, 10, 3, true));
             lastCannon1Shot = System.currentTimeMillis();
           }
         }
       }
       if (player2Shot) {
         if (System.currentTimeMillis() - lastPlayer2Shot > 250) {
-          player2.add(new Ammo(playerTwo.getX() + 15, playerTwo.getY() + 6, 5, 5, 5));
+          player2.add(new Ammo(playerTwo.getX() + 15, playerTwo.getY() + 6, 5, 5, 5, false));
           lastPlayer2Shot = System.currentTimeMillis();
         }
       }

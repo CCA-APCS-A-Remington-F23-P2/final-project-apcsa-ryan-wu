@@ -33,6 +33,27 @@ public class Bullets
     }
   }
 
+    public void detectCollision(List<Block> blocks){
+        for(int i = 0; i < blocks.size(); i++){
+            for(int j = 0; j < ammo.size(); j++){
+                Block b = blocks.get(i);
+                Ammo a = ammo.get(j);
+                if(b.didCollide(a)){
+                    if(a.getCannonAmmo()){
+                        // explode
+                        
+                    }
+                    // remove this ammo and dec block health by 1, if health<1 remove it
+                    ammo.remove(j--);
+                    b.setHealth(b.getHealth()-1);
+                    if(b.getHealth() < 1){
+                        blocks.remove(i--);
+                    }
+                }
+            }
+        }
+    }
+
   // remove any Ammo which has reached the edge of the screen
   public void cleanUpEdges()
   {

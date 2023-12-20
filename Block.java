@@ -41,7 +41,7 @@ public class Block extends MovingThing {
       try {
         URL url = getClass().getResource("Cannon.png");
         img = ImageIO.read(url);
-        h=1000;
+        h=10;
       } catch (Exception e) {
       }
     } else if (type.equals("barrier")){

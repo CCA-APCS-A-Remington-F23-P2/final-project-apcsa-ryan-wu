@@ -4,14 +4,16 @@ import java.util.*;
 
 public class Ammo extends MovingThing {
   private int speed;
+    boolean cannonAmmo;
 
   public Ammo() {
     this(0, 0, 1);
   }
 
-  public Ammo(int x, int y, int w, int h, int s) {
+  public Ammo(int x, int y, int w, int h, int s, boolean cannonAmmo) {
     super(x, y, w, h);
     speed = s;
+      this.cannonAmmo = cannonAmmo;
   }
   
   public Ammo(int x, int y) {
@@ -30,6 +32,8 @@ public class Ammo extends MovingThing {
   public int getSpeed() {
     return speed;
   }
+
+    public boolean getCannonAmmo(){ return cannonAmmo; }
 
   public void draw(Graphics window) {
     window.setColor(Color.BLUE);
