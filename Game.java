@@ -42,6 +42,9 @@ public class Game extends Canvas implements KeyListener, Runnable {
   public static int getBlockSize(){
     return blocks.size();
   }
+  public static void removeBlock(int i){
+    blocks.remove(i);
+  }
   
   public Game() {
     setBackground(Color.black);

@@ -46,13 +46,13 @@ public class PowerUps extends Player {
 
   public void AOE(int x, int y, Player player, Player p) {
     // deal damage to all blocks and enemies around player
-    for(int i = 0; i < blocks.size(); i++){
-        Block b = blocks.get(i);
+    for(int i = 0; i < Game.getBlockSize(); i++){
+        Block b = Game.getBlocks(i);
         if(b.segmentsOverlap(x-100, x+100, b.getX(), b.getX()+b.getWidth())
           && b.segmentsOverlap(y-100, y+100, b.getY(), b.getY()+b.getHeight())){
             b.setHealth(b.getHealth()-3);
             if(b.getHealth() < 1){
-                blocks.remove(i--);
+                Game.removeBlock(i--);
             }
         }
     }
@@ -136,6 +136,9 @@ public class PowerUps extends Player {
         for(int j=smallerx; j<biggerx; j+=20){
           if(Game.getBlocks(i).getX()==j && Game.getBlocks(i).getY()<=slope*j+starty+40 && Game.getBlocks(i).getY()>=slope*j+starty-40){
             Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-1);
+            if(Game.getBlocks(i).getHealth()<1){
+              Game.removeBlock(i);
+            }
             }
           }
         }
