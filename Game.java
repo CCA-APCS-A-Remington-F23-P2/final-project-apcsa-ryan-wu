@@ -160,7 +160,7 @@ boolean gameOver = false;
     graphToBack.setColor(Color.BLACK);
     graphToBack.fillRect(0, 0, 1000, 600);
 
-    long duration = 3000;
+    long duration = 15000;
 
     if (System.currentTimeMillis() - startTime > duration) {
       player1PowerUps.add(powerUps.get((int) (Math.random() * powerUps.size())));
@@ -314,15 +314,67 @@ boolean gameOver = false;
         }
       }
     }
-    if(keys[10]){
+    powerUps.add("empower");
+    powerUps.add("wall");
+    powerUps.add("heal");
+    powerUps.add("AOE");
+    powerUps.add("piercingAmmo");
+    powerUps.add("flashStrike");
+    if(keys[11]){
       try{
         System.out.println(player1PowerUps.get(0));
-        player1PowerUps.remove(0);
+
+        switch (player1PowerUps.get(0)) {
+          case "empower":
+            powerups.empower(playerOne);
+            break;
+          case "wall":
+            powerups.wall(playerOne, playerOne.getX(), playerOne.getY());
+            break;
+          case "heal":
+            powerups.heal(playerOne);
+            break;
+          case "AOE":
+            powerups.AOE(playerOne.getX(), playerOne.getY(), playerOne, playerTwo);
+            break;
+          case "flashStrike":
+            powerups.flashStrike(playerOne, playerTwo);
+            break;
+          default:
+            break;
+        }
+      } catch(Exception e){System.out.println("No powerups");}
+
+      player1PowerUps.remove(0);
+      keys[11] = false;
+    }
+    if(keys[10]){
+      try{
+        System.out.println(player2PowerUps.get(0));
+
+        switch (player2PowerUps.get(0)) {
+          case "empower":
+            powerups.empower(playerTwo);
+            break;
+          case "wall":
+            powerups.wall(playerTwo, playerTwo.getX(), playerTwo.getY());
+            break;
+          case "heal":
+            powerups.heal(playerTwo);
+            break;
+          case "AOE":
+            powerups.AOE(playerTwo.getX(), playerTwo.getY(), playerTwo, playerOne);
+            break;
+          case "flashStrike":
+            powerups.flashStrike(playerTwo, playerOne);
+            break;
+          default:
+            break;
+        }
+
+        player2PowerUps.remove(0);
         keys[10] = false;
-      } catch(Exception e){
-        System.out.println("No powerups");
-      
-      }
+      } catch(Exception e){System.out.println("No powerups");}
     }
     //remove destroyed blocks
     for (int i = 0; i < blocks.size(); i++) {
@@ -343,6 +395,18 @@ boolean gameOver = false;
       graphToBack.setColor(Color.GREEN);
       graphToBack.drawString("lives: " + playerTwo.getLives(), 20, 20);
       graphToBack.drawString("lives: " + playerOne.getLives(), 700, 20);
+
+      if(player1PowerUps.size() == 0){
+        graphToBack.drawString("Powerups: None", 700, 50);
+      } else {
+        graphToBack.drawString("Powerups: " + player1PowerUps.get(0), 700, 50);
+      }
+      if(player2PowerUps.size() == 0){
+        graphToBack.drawString("Powerups: None", 20, 50);
+      } else {
+        graphToBack.drawString("Powerups: " + player2PowerUps.get(0), 20, 50);
+      }
+
       if(playerOne.getLives()<=0 || playerTwo.getLives()<=0){
           graphToBack.setFont(new Font("TimesRoman", Font.PLAIN, 30));
           graphToBack.setColor(Color.RED);
