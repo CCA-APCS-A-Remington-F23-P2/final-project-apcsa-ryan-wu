@@ -37,7 +37,7 @@ public class Block extends MovingThing {
       try {
         URL url = getClass().getResource("GreyBlock.png");
         img = ImageIO.read(url);
-        h=3;
+        h=5;
       } catch (Exception e) {
       }
     } else if (type.contains("cannon")){ // cannonR or cannonL

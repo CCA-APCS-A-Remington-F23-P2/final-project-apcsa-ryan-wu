@@ -14,7 +14,8 @@ public class Player extends MovingThing {
   private int count = 0;
   private long lastJump = 0;
   private boolean faceRight;
-    private int lives = 5;
+  private int lives = 15;
+  private boolean piercingAmmo=false;
   public Player() {
     this(10, 10, 10, 10, 10, 1, 1, 1);
   }
@@ -79,6 +80,9 @@ public class Player extends MovingThing {
   }
     public int getLives(){ return lives; }
     public void setLives(int x){ lives = x; }
+
+  public boolean getPiercingAmmo(){ return piercingAmmo; }
+  public void setPiercingAmmo(boolean a){ piercingAmmo = a; }
 
   public void move(List<Block> blocks) {
     double dx = getXSpeed() / 10.0;

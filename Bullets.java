@@ -61,13 +61,14 @@ public class Bullets
                 if(b.didCollide(a)){
                     if(a.getCannonAmmo()){
                         explode(blocks, b.getX(), b.getY(), 4, one, two);
-                    } else{
+                    }
+                     else{
                         b.setHealth(b.getHealth()-1);
                         if(b.getHealth() < 1){
                             blocks.remove(i--);
                         }
                     }
-                    ammo.remove(j--);
+                    if(!a.getPiercingAmmo()) ammo.remove(j--);
                 }
             }
         }
@@ -80,7 +81,7 @@ public class Bullets
                         explode(blocks, p.getX(), p.getY(), 4, one, two);
                     }
                     p.setLives(p.getLives()-1);
-                    ammo.remove(i--);
+                    if(!a.getPiercingAmmo()) ammo.remove(i--);
                 }
             }
 
@@ -91,7 +92,7 @@ public class Bullets
   public void cleanUpEdges()
   {
     for (int i = 0; i < ammo.size(); i++) {
-      if (ammo.get(i).getY()<0) {
+      if ((ammo.get(i).getX()<0) || (ammo.get(i).getX()>1000)) {
         ammo.remove(i);
         i--;
       }

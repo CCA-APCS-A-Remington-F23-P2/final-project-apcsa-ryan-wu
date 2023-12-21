@@ -4,11 +4,19 @@ import java.awt.Color;
 public class PowerUps extends Player {
   ArrayList<String> playerpowers = new ArrayList<String>();
   Player otherplayer;
+  long timer = System.currentTimeMillis();
+  long timer2 = System.currentTimeMillis();
+  long timer3 = System.currentTimeMillis();
 
   public void empower(Player player) {
+    timer=System.currentTimeMillis();
     // give player temporary speed and damage boost
     player.setXSpeed(getXSpeed() + 5);
     player.setYSpeed(getYSpeed() + 5);
+    if(timer-System.currentTimeMillis()<30000){
+      player.setXSpeed(getXSpeed()-5);
+      player.setYSpeed(getYSpeed()-5);
+    }
   }
 
   public void AOE(Player player, Player otherplayer) {
@@ -30,6 +38,10 @@ public class PowerUps extends Player {
 
   public void piercingShots(Player player) {
     // next few bullets are not destroyed after collisions and travel faster
+    timer2=System.currentTimeMillis();
+    player.setPiercingAmmo(true);
+    if(timer-System.currentTimeMillis()<10000)
+      player.setPiercingAmmo(false);
   }
 
   public void wall(Player player) {

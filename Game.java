@@ -46,7 +46,7 @@ public class Game extends Canvas implements KeyListener, Runnable {
   public Game() {
     setBackground(Color.black);
     keys = new boolean[10];
-    playerOne = new Player(680, 30, 18, 18, 15, 0, 0, 1);
+    playerOne = new Player(880, 30, 18, 18, 15, 0, 0, 1);
     playerTwo = new Player(80, 30, 18, 18, 15, 0, 0, 2);
     blocks = new ArrayList<Block>();
     loadBlocks(true);
@@ -75,10 +75,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
         String t = s.next();
         if(t.equals("cannon")){
             blocks.add(new Cannon(x, y, "cannon"));
-            if(mirror) blocks.add(new Cannon(760-x, y, "reversecannon"));
+            if(mirror) blocks.add(new Cannon(960-x, y, "reversecannon"));
         } else{
             blocks.add(new Block(x, y, t));
-            if(mirror) blocks.add(new Block(760-x, y, t));
+            if(mirror) blocks.add(new Block(960-x, y, t));
         }
       }
     } catch (Exception e) {
@@ -103,7 +103,7 @@ public class Game extends Canvas implements KeyListener, Runnable {
     Graphics graphToBack = back.createGraphics();
 
     graphToBack.setColor(Color.BLACK);
-    graphToBack.fillRect(0, 0, 800, 600);
+    graphToBack.fillRect(0, 0, 1000, 600);
 
     if (System.currentTimeMillis() - lastGrav1 > gravInterval) {
       playerOne.gravity();
@@ -196,9 +196,23 @@ public class Game extends Canvas implements KeyListener, Runnable {
         }
       }
       if (player1Shot) {
-        if (System.currentTimeMillis() - lastPlayer1Shot > 250) {
+        if (System.currentTimeMillis() - lastPlayer1Shot > 250 && !playerOne.getFaceRight()) {
+          if(playerOne.getPiercingAmmo()){
+          player1.add(new Ammo(playerOne.getX() - 10, playerOne.getY() + 6, 5, 5, 5, false, true));
+            lastPlayer1Shot = System.currentTimeMillis();
+          } else{
           player1.add(new Ammo(playerOne.getX() - 10, playerOne.getY() + 6, 5, 5, 5, false));
           lastPlayer1Shot = System.currentTimeMillis();
+        }
+        }
+        else if (System.currentTimeMillis() - lastPlayer1Shot > 250 && playerOne.getFaceRight()) {
+          if(playerOne.getPiercingAmmo()){
+          player1.add(new Ammo(playerOne.getX() + 18, playerOne.getY() + 6, 5, 5, -5, false, true));
+            lastPlayer1Shot = System.currentTimeMillis();
+          } else{
+          player1.add(new Ammo(playerOne.getX() + 18, playerOne.getY() + 6, 5, 5, -5, false));
+          lastPlayer1Shot = System.currentTimeMillis();
+          }
         }
       }
     }
@@ -214,9 +228,23 @@ public class Game extends Canvas implements KeyListener, Runnable {
         }
       }
       if (player2Shot) {
-        if (System.currentTimeMillis() - lastPlayer2Shot > 250) {
-          player2.add(new Ammo(playerTwo.getX() + 15, playerTwo.getY() + 6, 5, 5, 5, false));
+        if (System.currentTimeMillis() - lastPlayer2Shot > 250 && playerTwo.getFaceRight()) {
+          if(playerTwo.getPiercingAmmo()){
+          player2.add(new Ammo(playerTwo.getX() + 18, playerTwo.getY() + 6, 5, 5, 7, false, true));
+            lastPlayer1Shot = System.currentTimeMillis();
+          } else{
+          player2.add(new Ammo(playerTwo.getX() + 18, playerTwo.getY() + 6, 5, 5, 7, false));
           lastPlayer2Shot = System.currentTimeMillis();
+        }
+        }
+        else if (System.currentTimeMillis() - lastPlayer2Shot > 250 && !playerTwo.getFaceRight()) {
+          if(playerTwo.getPiercingAmmo()){
+          player2.add(new Ammo(playerTwo.getX() - 10, playerTwo.getY() + 6, 5, 5, -7,  false, true));
+            lastPlayer1Shot = System.currentTimeMillis();
+          } else{
+          player2.add(new Ammo(playerTwo.getX() - 10, playerTwo.getY() + 6, 5, 5, -7, false));
+          lastPlayer2Shot = System.currentTimeMillis();
+        }
         }
       }
     }
@@ -249,16 +277,16 @@ public class Game extends Canvas implements KeyListener, Runnable {
   }
 
   public void keyPressed(KeyEvent e) {
-    if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+    if (e.getKeyCode() == KeyEvent.VK_J) {
       keys[0] = true;
     }
-    if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+    if (e.getKeyCode() == KeyEvent.VK_L) {
       keys[1] = true;
     }
-    if (e.getKeyCode() == KeyEvent.VK_UP) {
+    if (e.getKeyCode() == KeyEvent.VK_I) {
       keys[2] = true;
     }
-    if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+    if (e.getKeyCode() == KeyEvent.VK_K) {
       keys[3] = true;
     }
     if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -273,26 +301,26 @@ public class Game extends Canvas implements KeyListener, Runnable {
     if (e.getKeyCode() == KeyEvent.VK_S) {
       keys[7] = true;
     }
-    if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+    if (e.getKeyCode() == KeyEvent.VK_U) {
       keys[8] = true;
     }
-    if (e.getKeyCode() == KeyEvent.VK_Q) {
+    if (e.getKeyCode() == KeyEvent.VK_E) {
       keys[9] = true;
     }
     repaint();
   }
 
   public void keyReleased(KeyEvent e) {
-    if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+    if (e.getKeyCode() == KeyEvent.VK_J) {
       keys[0] = false;
     }
-    if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+    if (e.getKeyCode() == KeyEvent.VK_L) {
       keys[1] = false;
     }
-    if (e.getKeyCode() == KeyEvent.VK_UP) {
+    if (e.getKeyCode() == KeyEvent.VK_I) {
       keys[2] = false;
     }
-    if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+    if (e.getKeyCode() == KeyEvent.VK_K) {
       keys[3] = false;
     }
     if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -307,10 +335,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
     if (e.getKeyCode() == KeyEvent.VK_S) {
       keys[7] = false;
     }
-    if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+    if (e.getKeyCode() == KeyEvent.VK_U) {
       keys[8] = false;
     }
-    if (e.getKeyCode() == KeyEvent.VK_Q) {
+    if (e.getKeyCode() == KeyEvent.VK_E) {
       keys[9] = false;
     }
     repaint();

@@ -5,7 +5,7 @@ import java.util.*;
 public class Ammo extends MovingThing {
   private int speed;
     boolean cannonAmmo;
-
+    boolean piercingAmmo;
   public Ammo() {
     this(0, 0, 1);
   }
@@ -14,6 +14,12 @@ public class Ammo extends MovingThing {
     super(x, y, w, h);
     speed = s;
       this.cannonAmmo = cannonAmmo;
+  }
+  public Ammo(int x, int y, int w, int h, int s, boolean cannonAmmo, boolean piercingAmmo) {
+    super(x, y, w, h);
+    speed = s;
+      this.cannonAmmo = cannonAmmo;
+      this.piercingAmmo = piercingAmmo;
   }
   
   public Ammo(int x, int y) {
@@ -34,7 +40,9 @@ public class Ammo extends MovingThing {
   }
 
     public boolean getCannonAmmo(){ return cannonAmmo; }
-
+    public boolean getPiercingAmmo(){ return piercingAmmo; }
+    public void setPiercingAmmo(boolean a){ piercingAmmo=a; }
+  
   public void draw(Graphics window) {
     window.setColor(Color.BLUE);
     window.fillRect(getX(), getY(), getWidth(), getHeight());
