@@ -1,5 +1,12 @@
 import java.util.*;
+import java.io.File;
+import java.net.URL;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+
+import java.lang.Thread;
 
 public class PowerUps extends Player {
   ArrayList<String> playerpowers = new ArrayList<String>();
@@ -7,6 +14,8 @@ public class PowerUps extends Player {
   long timerE = System.currentTimeMillis();
   long timerH = System.currentTimeMillis();
   long timerP = System.currentTimeMillis();
+
+  Image image;
 
   public void empower(Player player) {
     timerP=System.currentTimeMillis();
@@ -70,9 +79,15 @@ public class PowerUps extends Player {
       player.setPiercingAmmo(false);
   }
 
-  public void conjureEvilSpirit(Player player, int x, int y) {
-    // create an evil spirit that follows the other player in both x and y axis. Phases through walls and damages enemies during contact
-  }
+  // public void conjureEvilSpirit(Graphics window, Player player, int x, int y) {
+  //   // create an evil spirit that follows the other player in both x and y axis. Phases through walls and damages enemies during contact
+  //   try {
+  //     URL url = getClass().getResource("evilSpirit.png");
+  //     image = ImageIO.read(url);
+  //   } catch (Exception e) {}
+
+  //   window.drawImage(image, x+20, y, null);
+  // }
 
   public void flashStrike(Player player, Player otherplayer){
     // teleport player ~7.5 blocks in direction they are going, damaging everything between starting and ending point
