@@ -37,7 +37,7 @@ public class Bullets
         for(int i = 0; i < blocks.size(); i++){
             Block b = blocks.get(i);
             if(b.segmentsOverlap(x-20*r, x+20*r, b.getX(), b.getX()+b.getWidth())
-              && b.segmentsOverlap(y-20*r, y+20*4, b.getY(), b.getY()+b.getHeight())){
+              && b.segmentsOverlap(y-20*r, y+20*r, b.getY(), b.getY()+b.getHeight())){
                 b.setHealth(b.getHealth()-1);
                 if(b.getHealth() < 1){
                     blocks.remove(i--);
@@ -47,7 +47,7 @@ public class Bullets
         Player[] players = {one, two};
         for(Player p : players){
             if(p.segmentsOverlap(x-20*r, x+20*r, p.getX(), p.getX()+p.getWidth())
-                  && p.segmentsOverlap(y-20*r, y+20*4, p.getY(), p.getY()+p.getHeight())){
+                  && p.segmentsOverlap(y-20*r, y+20*r, p.getY(), p.getY()+p.getHeight())){
                     p.setLives(p.getLives()-1);
                   }
         }

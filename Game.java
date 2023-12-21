@@ -259,10 +259,10 @@ public class Game extends Canvas implements KeyListener, Runnable {
     }
       
       if(playerOne.getY() > 580){
-          playerOne.setLives(0);
+          playerOne.setLivesFinal(0);
       }
       if(playerTwo.getY() > 580){
-          playerTwo.setLives(0);
+          playerTwo.setLivesFinal(0);
       }
       graphToBack.setColor(Color.GREEN);
       graphToBack.drawString("lives: " + playerTwo.getLives(), 20, 20);

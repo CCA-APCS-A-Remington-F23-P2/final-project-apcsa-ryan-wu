@@ -4,29 +4,33 @@ import java.awt.Color;
 public class PowerUps extends Player {
   ArrayList<String> playerpowers = new ArrayList<String>();
   Player otherplayer;
-  long timer = System.currentTimeMillis();
-  long timer2 = System.currentTimeMillis();
-  long timer3 = System.currentTimeMillis();
+  long timerE = System.currentTimeMillis();
+  long timerH = System.currentTimeMillis();
+  long timerP = System.currentTimeMillis();
 
   public void empower(Player player) {
-    timer=System.currentTimeMillis();
-    // give player temporary speed and damage boost
+    timerP=System.currentTimeMillis();
+    // give player temporary speed boost
     player.setXSpeed(getXSpeed() + 5);
     player.setYSpeed(getYSpeed() + 5);
-    if(timer-System.currentTimeMillis()<30000){
+    if(timerP-System.currentTimeMillis()>30000){
       player.setXSpeed(getXSpeed()-5);
       player.setYSpeed(getYSpeed()-5);
     }
   }
-
-  public void AOE(Player player, Player otherplayer) {
-    // deal damage to all blocks and enemies around player
-  for(int i=0; i<Game.getBlockSize(); i++){
-    if(Game.getBlocks(i).getX()>player.getX()-100 && Game.getBlocks(i).getX()<player.getX()+100 && Game.getBlocks(i).getY()>player.getY()-100 && Game.getBlocks(i).getY()<player.getY()+100){
-      Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth()-2);
+  
+  public void wall(Player player, int x, int y) {
+    // build a 2x4 metal wall in front of player
+    if(player.getFaceRight()){
+    for(int i=0; i<4; i++){
+    Game.addBlock(new Block(x+23, y-20*i, "metal"));
+      Game.addBlock(new Block(x+43, y-20*i, "metal"));
     }
-    if(otherplayer.getX()>player.getX()-100 && otherplayer.getX()<player.getX()+100 && otherplayer.getY()>player.getY()-100 && otherplayer.getY()<player.getY()+100){
-      otherplayer.setHealth(otherplayer.getHealth()-4);
+    }
+      if(!player.getFaceRight()){
+        for(int i=0; i<4; i++){
+        Game.addBlock(new Block(x-5, y-20*i, "metal"));
+        Game.addBlock(new Block(x-25, y-20*i, "metal"));
     }
   }
   }
@@ -34,32 +38,39 @@ public class PowerUps extends Player {
   public void heal(Player player) {
     // add health to player, prevent damage for short duration
     player.setHealth(player.getHealth() + 4);
+    player.setImmunity(true);
+    timerH=System.currentTimeMillis();
+    if(timerH-System.currentTimeMillis()>5000)
+      player.setImmunity(false);
+  }
+
+  public void AOE(int x, int y, Player player, Player p) {
+    // deal damage to all blocks and enemies around player
+    for(int i = 0; i < blocks.size(); i++){
+        Block b = blocks.get(i);
+        if(b.segmentsOverlap(x-100, x+100, b.getX(), b.getX()+b.getWidth())
+          && b.segmentsOverlap(y-100, y+100, b.getY(), b.getY()+b.getHeight())){
+            b.setHealth(b.getHealth()-3);
+            if(b.getHealth() < 1){
+                blocks.remove(i--);
+            }
+        }
+    }
+    if(p.segmentsOverlap(x-100, x+100, p.getX(), p.getX()+p.getWidth())
+    && p.segmentsOverlap(y-100, y+100, p.getY(), p.getY()+p.getHeight())){
+      p.setLives(p.getLives()-3);
+    }
   }
 
   public void piercingShots(Player player) {
     // next few bullets are not destroyed after collisions and travel faster
-    timer2=System.currentTimeMillis();
+    timerP=System.currentTimeMillis();
     player.setPiercingAmmo(true);
-    if(timer-System.currentTimeMillis()<10000)
+    if(timerP-System.currentTimeMillis()>10000)
       player.setPiercingAmmo(false);
   }
 
-  public void wall(Player player) {
-    // build a 2x4 metal wall in front of player
-    if(player.getFaceRight()){
-    for(int i=0; i<4; i++){
-    Game.addBlock(new Block(player.getX()+player.getWidth()+5, player.getY()-20*i, "metal"));
-      Game.addBlock(new Block(player.getX()+player.getWidth()+25, player.getY()-20*i, "metal"));
-    }
-    }
-      if(!player.getFaceRight()){
-        for(int i=0; i<4; i++){
-        Game.addBlock(new Block(player.getX()-5, player.getY()-20*i, "metal"));
-        Game.addBlock(new Block(player.getX()-25, player.getY()-20*i, "metal"));
-    }
-  }
-  }
-  public void conjureEvilSpirit(Player player) {
+  public void conjureEvilSpirit(Player player, int x, int y) {
     // create an evil spirit that follows the other player in both x and y axis. Phases through walls and damages enemies during contact
   }
 

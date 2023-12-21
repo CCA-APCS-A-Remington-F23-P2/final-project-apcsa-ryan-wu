@@ -15,6 +15,7 @@ public class Player extends MovingThing {
   private long lastJump = 0;
   private boolean faceRight;
   private int lives = 15;
+  public boolean immunity=false;
   private boolean piercingAmmo=false;
   public Player() {
     this(10, 10, 10, 10, 10, 1, 1, 1);
@@ -79,8 +80,16 @@ public class Player extends MovingThing {
     faceRight = b;
   }
     public int getLives(){ return lives; }
-    public void setLives(int x){ lives = x; }
+    public void setLives(int x){
+      if(!immunity) 
+        lives = x; 
+    }
+    public void setLivesFinal(int x){
+      lives = x;
+    }
 
+  public boolean getImmunity(){ return immunity; }
+  public void setImmunity(boolean a){ immunity = a; }
   public boolean getPiercingAmmo(){ return piercingAmmo; }
   public void setPiercingAmmo(boolean a){ piercingAmmo = a; }
 
