@@ -6,8 +6,10 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.awt.Font;
 
@@ -32,6 +34,13 @@ public class Game extends Canvas implements KeyListener, Runnable {
   private Bullets player2;
   private Bullets cannon2;
   private Bullets player1;
+
+  long startTime = System.currentTimeMillis();
+  private ArrayList<String> powerUps = new ArrayList<String>();
+  private ArrayList<String> player1PowerUps = new ArrayList<String>();
+  private ArrayList<String> player2PowerUps = new ArrayList<String>();
+
+  PowerUps powerups = new PowerUps();
   
   public static void addBlock(Block a){
     blocks.add(a);
@@ -48,7 +57,7 @@ public class Game extends Canvas implements KeyListener, Runnable {
   
   public Game() {
     setBackground(Color.black);
-    keys = new boolean[10];
+    keys = new boolean[12];
     playerOne = new Player(880, 30, 18, 18, 15, 0, 0, 1);
     playerTwo = new Player(80, 30, 18, 18, 15, 0, 0, 2);
     blocks = new ArrayList<Block>();
@@ -57,6 +66,15 @@ public class Game extends Canvas implements KeyListener, Runnable {
     player2 = new Bullets();
     cannon2 = new Bullets();
     player1 = new Bullets();
+
+    powerUps.add("empower");
+    powerUps.add("wall");
+    powerUps.add("heal");
+    powerUps.add("AOE");
+    powerUps.add("piercingAmmo");
+    powerUps.add("flashStrike");
+
+
     this.addKeyListener(this);
     new Thread(this).start();
 
@@ -107,6 +125,17 @@ public class Game extends Canvas implements KeyListener, Runnable {
 
     graphToBack.setColor(Color.BLACK);
     graphToBack.fillRect(0, 0, 1000, 600);
+
+    long duration = 3000;
+
+    if (System.currentTimeMillis() - startTime > duration) {
+      player1PowerUps.add(powerUps.get((int) (Math.random() * powerUps.size())));
+      player2PowerUps.add(powerUps.get((int) (Math.random() * powerUps.size())));
+      startTime = System.currentTimeMillis();
+    }
+
+    // Timer has finished
+    // Add your code here for the actions you want to perform after the timer
 
     if (System.currentTimeMillis() - lastGrav1 > gravInterval) {
       playerOne.gravity();
@@ -251,6 +280,16 @@ public class Game extends Canvas implements KeyListener, Runnable {
         }
       }
     }
+    if(keys[10]){
+      try{
+        System.out.println(player1PowerUps.get(0));
+        player1PowerUps.remove(0);
+        keys[10] = false;
+      } catch(Exception e){
+        System.out.println("No powerups");
+      
+      }
+    }
     //remove destroyed blocks
     for (int i = 0; i < blocks.size(); i++) {
     if(blocks.get(i).getHealth()<=0) 
@@ -310,6 +349,12 @@ public class Game extends Canvas implements KeyListener, Runnable {
     if (e.getKeyCode() == KeyEvent.VK_E) {
       keys[9] = true;
     }
+    if(e.getKeyCode() == KeyEvent.VK_Q){
+        keys[10] = true;
+    }
+    if(e.getKeyCode() == KeyEvent.VK_O){
+        keys[11] = true;
+    }
     repaint();
   }
 
@@ -343,6 +388,12 @@ public class Game extends Canvas implements KeyListener, Runnable {
     }
     if (e.getKeyCode() == KeyEvent.VK_E) {
       keys[9] = false;
+    }
+    if(e.getKeyCode() == KeyEvent.VK_Q){
+        keys[10] = false;
+    }
+    if(e.getKeyCode() == KeyEvent.VK_O){
+        keys[11] = false;
     }
     repaint();
   }
