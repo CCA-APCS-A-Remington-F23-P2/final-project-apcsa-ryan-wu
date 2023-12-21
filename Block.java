@@ -73,6 +73,7 @@ public class Block extends MovingThing {
   public int getHealth() {
     return h;
   }
+    public String getType(){ return type; }
   public void setHealth(int x) {
     h=x;
   }

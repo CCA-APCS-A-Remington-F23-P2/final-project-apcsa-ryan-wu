@@ -10,6 +10,8 @@ import java.util.List;
 import java.io.File;
 import java.util.Scanner;
 import java.awt.Font;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 public class Game extends Canvas implements KeyListener, Runnable {
 
@@ -32,6 +34,8 @@ public class Game extends Canvas implements KeyListener, Runnable {
   private Bullets player2;
   private Bullets cannon2;
   private Bullets player1;
+    private long lastSave = 0;
+    boolean gameOver = false;
   
   public static void addBlock(Block a){
     blocks.add(a);
@@ -49,10 +53,8 @@ public class Game extends Canvas implements KeyListener, Runnable {
   public Game() {
     setBackground(Color.black);
     keys = new boolean[10];
-    playerOne = new Player(880, 30, 18, 18, 15, 0, 0, 1);
-    playerTwo = new Player(80, 30, 18, 18, 15, 0, 0, 2);
     blocks = new ArrayList<Block>();
-    loadBlocks(true);
+    loadBlocks();
     cannon1 = new Bullets();
     player2 = new Bullets();
     cannon2 = new Bullets();
@@ -63,27 +65,57 @@ public class Game extends Canvas implements KeyListener, Runnable {
     setVisible(true);
   }
 
-  public void loadBlocks(boolean newMap) {
-    Scanner s;
+  public void loadBlocks() {
+    boolean newMap = false;
+      Scanner s;
+      try{
+          s = new Scanner(new File("BlockData.txt"));
+          newMap = !s.hasNextInt();
+      } catch (Exception e){}
+    System.out.println(newMap);
     boolean mirror = false;
     try {
       if (newMap) {
         s = new Scanner(new File("BlockDataDefault.txt"));
+        int x1 = s.nextInt(); int y1 = s.nextInt(); int x2 = s.nextInt(); int y2 = s.nextInt();
+          playerOne = new Player(x1, y1, 18, 18, 15, 0, 0, 1);
+          playerTwo = new Player(x2, y2, 18, 18, 15, 0, 0, 2);
         mirror = true;
-      } else
-        s = new Scanner(new File("BlockData.txt"));
-      while (s.hasNextLine()) {
-        int x = s.nextInt() * 20;
-        int y = s.nextInt() * 20;
-        String t = s.next();
-        if(t.equals("cannon")){
-            blocks.add(new Cannon(x, y, "cannon"));
-            if(mirror) blocks.add(new Cannon(960-x, y, "reversecannon"));
-        } else{
-            blocks.add(new Block(x, y, t));
-            if(mirror) blocks.add(new Block(960-x, y, t));
-        }
+            while (s.hasNextLine()) {
+              int x = s.nextInt() * 20;
+              int y = s.nextInt() * 20;
+              String t = s.next();
+              if(t.equals("cannon")){
+                  blocks.add(new Cannon(x, y, "cannon"));
+                  if(mirror) blocks.add(new Cannon(960-x, y, "reversecannon"));
+              } else{
+                  blocks.add(new Block(x, y, t));
+                  if(mirror) blocks.add(new Block(960-x, y, t));
+              }
+            }
+      } else{
+          s = new Scanner(new File("BlockData.txt"));
+          int h1 = s.nextInt(); int h2 = s.nextInt();
+          int x1 = s.nextInt(); int y1 = s.nextInt(); int x2 = s.nextInt(); int y2 = s.nextInt();
+            playerOne = new Player(x1, y1, 18, 18, 15, 0, 0, 1);
+            playerTwo = new Player(x2, y2, 18, 18, 15, 0, 0, 2);
+            playerOne.setLivesFinal(h1);
+            playerTwo.setLivesFinal(h2);
+            while (s.hasNextLine()) {
+              int x = s.nextInt();
+              int y = s.nextInt();
+              String t = s.next();
+              if(t.equals("cannon")){
+                  blocks.add(new Cannon(x, y, "cannon"));
+                  if(mirror) blocks.add(new Cannon(960-x, y, "reversecannon"));
+              } else{
+                  blocks.add(new Block(x, y, t));
+                  if(mirror) blocks.add(new Block(960-x, y, t));
+              }
+            }
       }
+        
+
     } catch (Exception e) {
     }
   }
@@ -270,14 +302,42 @@ public class Game extends Canvas implements KeyListener, Runnable {
       graphToBack.setColor(Color.GREEN);
       graphToBack.drawString("lives: " + playerTwo.getLives(), 20, 20);
       graphToBack.drawString("lives: " + playerOne.getLives(), 700, 20);
-      if(playerOne.getLives()==0 || playerTwo.getLives()==0){
+      if(playerOne.getLives()<=0 || playerTwo.getLives()<=0){
           graphToBack.setFont(new Font("TimesRoman", Font.PLAIN, 30));
           graphToBack.setColor(Color.RED);
           graphToBack.drawString("GAME OVER", 300, 250);
+          gameOver = true;
+          setBlank();
       }
 
     twoDGraph.drawImage(back, null, 0, 0);
+      if(System.currentTimeMillis()-lastSave > 500 && !gameOver){
+          saveState();
+          lastSave = System.currentTimeMillis();
+      }
   }
+    public void setBlank(){
+        try{
+              BufferedWriter w = new BufferedWriter(new FileWriter("BlockData.txt"));
+              w.write("");
+              w.close();
+        } catch (Exception e){}
+
+    }
+
+    public void saveState(){
+        try{
+            BufferedWriter w = new BufferedWriter(new FileWriter("BlockData.txt"));
+            w.write(playerOne.getLives() + " " + playerTwo.getLives() + "\n");
+            w.write(playerOne.getX() + " " + playerOne.getY() + "\n");
+            w.write(playerTwo.getX() + " " + playerTwo.getY() + "\n");
+            for(Block b : blocks){
+                w.write(b.getX() + " " + b.getY() + " " + b.getType() + "\n");
+            }
+            w.close();
+        } catch (Exception e){}
+
+    }
 
   public void keyPressed(KeyEvent e) {
     if (e.getKeyCode() == KeyEvent.VK_J) {
