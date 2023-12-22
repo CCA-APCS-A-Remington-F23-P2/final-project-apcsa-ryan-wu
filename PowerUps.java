@@ -76,15 +76,15 @@ public class PowerUps extends Player {
   }
 
   public void piercingShots(Player player) {
-    // next few bullets are not destroyed after collisions and travel faster
-    // timerP = System.currentTimeMillis();
+    // // next few bullets are not destroyed after collisions and travel faster
+    timerP = System.currentTimeMillis();
     player.setPiercingAmmo(true);
-    // if (timerP - System.currentTimeMillis() > 10000)
-    //   player.setPiercingAmmo(false);
+    if (timerP - System.currentTimeMillis() > 10000)
+      player.setPiercingAmmo(false);
   }
 
-  // public void conjureEvilSpirit(Graphics window, Player player, int x, int y) {
-  //   // create an evil spirit that follows the other player in both x and y axis. Phases through walls and damages enemies during contact
+  //public void conjureEvilSpirit(Graphics window, Player player, int x, int y) {
+  //   SCRAPPED - create an evil spirit that follows the other player in both x and y axis. Phases through walls and damages enemies during contact
   //   try {
   //     URL url = getClass().getResource("evilSpirit.png");
   //     image = ImageIO.read(url);
@@ -137,29 +137,36 @@ public class PowerUps extends Player {
       player.setX(endx);
       for (int i = 0; i < Game.getBlockSize(); i++) {
         Block b = Game.getBlocks(i);
-        if (b.segmentsOverlap(smallerx, biggerx, b.getX(), b.getX() + b.getWidth()) &&
-          b.segmentsOverlap(starty-50, starty+50, b.getY(), b.getY() + b.getHeight())) {
+        if (b.segmentsOverlap(smallerx, biggerx, b.getX(), b.getX() + 
+        b.getWidth()) &&
+        b.segmentsOverlap(starty-50, starty+50, b.getY(), b.getY() + 
+        b.getHeight())) {
           b.setHealth(b.getHealth() - 1);
           if (b.getHealth() < 1) {
             Game.removeBlock(i--);
           }
         }
       }
-      if (p.segmentsOverlap(smallerx, biggerx, p.getX(), p.getX() + p.getWidth()) &&
-        p.segmentsOverlap(smallery, biggery, p.getY(), p.getY() + p.getHeight())) {
+      if (p.segmentsOverlap(smallerx, biggerx, p.getX(), p.getX() +         
+      p.getWidth()) &&
+        p.segmentsOverlap(smallery, biggery, p.getY(), p.getY() + 
+      p.getHeight())) {
         p.setLives(p.getLives() - 2);
       }
     if (horizontal == true) {
       player.setX(endx);
       player.setY(endy);
       int slope = -1;
-      if (endy - starty > 0 && endx - startx > 0 || starty - endy > 0 && startx - endx > 0)
+      if (endy - starty > 0 && endx - startx > 0 || starty - endy > 0 && startx 
+      - endx > 0)
         slope = 1;
       int k=smallery;
       for (int i = 0; i < Game.getBlockSize(); i++) {
         for (int j = smallerx; j < biggerx; j += 20) {
           Block b = Game.getBlocks(i);
-          if (b.segmentsOverlap(smallerx+j-50, smallerx+j+50, b.getX(), b.getX()+b.getHeight()) && b.segmentsOverlap(smallery+k-50, smallery+k+50, b.getY(), b.getY()+b.getHeight())) {
+          if (b.segmentsOverlap(smallerx+j-50, smallerx+j+50, b.getX(), 
+          b.getX()+b.getHeight()) && b.segmentsOverlap(smallery+k-50,   
+          smallery+k+50, b.getY(), b.getY()+b.getHeight())) {
             b.setHealth(b.getHealth() - 1);
             if (b.getHealth() < 1) {
               Game.removeBlock(i);
@@ -170,7 +177,9 @@ public class PowerUps extends Player {
       }
       k=smallery;
       for (int j = smallerx; j < biggerx; j += 20) {
-        if (p.segmentsOverlap(smallerx+j-50, smallerx+j+50, p.getX(), p.getX()+p.getWidth()) && p.segmentsOverlap(smallery+k-50, smallery+k+50, p.getY(), p.getY()+p.getHeight())) {
+        if (p.segmentsOverlap(smallerx+j-50, smallerx+j+50, p.getX(), 
+        p.getX()+p.getWidth()) && p.segmentsOverlap(smallery+k-50, 
+        smallery+k+50, p.getY(), p.getY()+p.getHeight())) {
           p.setLives(p.getLives() - 2);
         }
         k+=20*slope;
