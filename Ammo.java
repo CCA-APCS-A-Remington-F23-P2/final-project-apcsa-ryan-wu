@@ -41,7 +41,6 @@ public class Ammo extends MovingThing {
 
     public boolean getCannonAmmo(){ return cannonAmmo; }
     public boolean getPiercingAmmo(){ return piercingAmmo; }
-    public void setPiercingAmmo(boolean a){ piercingAmmo=a; }
   
   public void draw(Graphics window) {
     window.setColor(Color.BLUE);

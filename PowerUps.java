@@ -10,7 +10,7 @@ import java.lang.Thread;
 
 public class PowerUps extends Player {
   ArrayList < String > playerpowers = new ArrayList < String > ();
-  Player otherplayer;
+  Player p;
   long timerE = System.currentTimeMillis();
   long timerH = System.currentTimeMillis();
   long timerP = System.currentTimeMillis();
@@ -20,11 +20,11 @@ public class PowerUps extends Player {
   public void empower(Player player) {
     timerP = System.currentTimeMillis();
     // give player temporary speed boost
-    player.setXSpeed(getXSpeed() + 5);
-    player.setYSpeed(getYSpeed() + 5);
+    player.setXSpeed(player.getXSpeed() + 5);
+    player.setYSpeed(player.getYSpeed() + 5);
     if (timerP - System.currentTimeMillis() > 30000) {
-      player.setXSpeed(getXSpeed() - 5);
-      player.setYSpeed(getYSpeed() - 5);
+      player.setXSpeed(player.getXSpeed() - 5);
+      player.setYSpeed(player.getYSpeed() - 5);
     }
   }
 
@@ -32,25 +32,29 @@ public class PowerUps extends Player {
     // build a 2x4 metal wall in front of player
     if (player.getFaceRight()) {
       for (int i = 0; i < 4; i++) {
-        Game.addBlock(new Block(x + 30, y - 20 * i, "metal"));
-        Game.addBlock(new Block(x + 50, y - 20 * i, "metal"));
+        Game.addBlock(new Block(x + 35, y - 20 * i, "metal"));
+        Game.addBlock(new Block(x + 55, y - 20 * i, "metal"));
       }
     }
     if (!player.getFaceRight()) {
       for (int i = 0; i < 4; i++) {
-        Game.addBlock(new Block(x - 10, y - 20 * i, "metal"));
-        Game.addBlock(new Block(x - 30, y - 20 * i, "metal"));
+        Game.addBlock(new Block(x - 25, y - 20 * i, "metal"));
+        Game.addBlock(new Block(x - 45, y - 20 * i, "metal"));
       }
     }
   }
 
   public void heal(Player player) {
-    // add health to player, prevent damage for short duration
-    player.setHealth(player.getHealth() + 4);
-    player.setImmunity(true);
-    timerH = System.currentTimeMillis();
-    if (timerH - System.currentTimeMillis() > 5000)
-      player.setImmunity(false);
+    // add health to player
+    if(player.getLives()>=11)
+      player.setLivesFinal(15);
+    else {
+    player.setLivesFinal(player.getLives() + 4);
+    }
+    // player.setImmunity(true);
+    // timerH = System.currentTimeMillis();
+    // if (timerH - System.currentTimeMillis() > 5000)
+    //   player.setImmunity(false);
   }
 
   public void AOE(int x, int y, Player player, Player p) {
@@ -73,10 +77,10 @@ public class PowerUps extends Player {
 
   public void piercingShots(Player player) {
     // next few bullets are not destroyed after collisions and travel faster
-    timerP = System.currentTimeMillis();
+    // timerP = System.currentTimeMillis();
     player.setPiercingAmmo(true);
-    if (timerP - System.currentTimeMillis() > 10000)
-      player.setPiercingAmmo(false);
+    // if (timerP - System.currentTimeMillis() > 10000)
+    //   player.setPiercingAmmo(false);
   }
 
   // public void conjureEvilSpirit(Graphics window, Player player, int x, int y) {
@@ -89,22 +93,22 @@ public class PowerUps extends Player {
   //   window.drawImage(image, x+20, y, null);
   // }
 
-  public void flashStrike(Player player, Player otherplayer) {
+  public void flashStrike(Player player, Player p) {
     // teleport player ~7.5 blocks in direction they are going, damaging everything between starting and ending point
     int yd = 0;
     if (player.getYSpeed() == 0) yd = 0;
     if (player.getYSpeed() > 0) yd = 1;
     if (player.getYSpeed() < 0) yd = -1;
-    int xd = 0;
+    int xd=1;
     if (player.getFaceRight() == true) xd = 1;
     if (player.getFaceRight() == false) xd = -1;
     int startx = player.getX();
     int starty = player.getY();
     int endx = player.getX() + xd * 150;
     int endy = player.getY() + yd * 150;
-    if (endx > 800) endx = 800;
+    if (endx > 900) endx = 900;
     if (endx < 0) endx = 0;
-    if (endy > 600) endy = 600;
+    if (endy > 500) endy = 500;
     if (endy < 0) endy = 0;
     int biggerx = 0;
     int smallerx = 0;
@@ -132,36 +136,46 @@ public class PowerUps extends Player {
     if (horizontal == false) {
       player.setX(endx);
       for (int i = 0; i < Game.getBlockSize(); i++) {
-        if (Game.getBlocks(i).getX() > smallerx && Game.getBlocks(i).getX() < biggerx && Game.getBlocks(i).getY() > starty + 40 && Game.getBlocks(i).getY() < endy - 40) {
-          Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth() - 1);
-
+        Block b = Game.getBlocks(i);
+        if (b.segmentsOverlap(smallerx, biggerx, b.getX(), b.getX() + b.getWidth()) &&
+          b.segmentsOverlap(starty-50, starty+50, b.getY(), b.getY() + b.getHeight())) {
+          b.setHealth(b.getHealth() - 1);
+          if (b.getHealth() < 1) {
+            Game.removeBlock(i--);
+          }
         }
       }
-      if (otherplayer.getX() > smallerx && otherplayer.getX() < biggerx && otherplayer.getY() > smallery && otherplayer.getY() < biggery) {
-        otherplayer.setHealth(otherplayer.getHealth() - 3);
+      if (p.segmentsOverlap(smallerx, biggerx, p.getX(), p.getX() + p.getWidth()) &&
+        p.segmentsOverlap(smallery, biggery, p.getY(), p.getY() + p.getHeight())) {
+        p.setLives(p.getLives() - 2);
       }
-    }
     if (horizontal == true) {
       player.setX(endx);
       player.setY(endy);
       int slope = -1;
       if (endy - starty > 0 && endx - startx > 0 || starty - endy > 0 && startx - endx > 0)
         slope = 1;
+      int k=smallery;
       for (int i = 0; i < Game.getBlockSize(); i++) {
         for (int j = smallerx; j < biggerx; j += 20) {
-          if (Game.getBlocks(i).getX() == j && Game.getBlocks(i).getY() <= slope * j + starty + 40 && Game.getBlocks(i).getY() >= slope * j + starty - 40) {
-            Game.getBlocks(i).setHealth(Game.getBlocks(i).getHealth() - 1);
-            if (Game.getBlocks(i).getHealth() < 1) {
+          Block b = Game.getBlocks(i);
+          if (b.segmentsOverlap(smallerx+j-50, smallerx+j+50, b.getX(), b.getX()+b.getHeight()) && b.segmentsOverlap(smallery+k-50, smallery+k+50, b.getY(), b.getY()+b.getHeight())) {
+            b.setHealth(b.getHealth() - 1);
+            if (b.getHealth() < 1) {
               Game.removeBlock(i);
             }
           }
         }
+        k+=20*slope;
       }
+      k=smallery;
       for (int j = smallerx; j < biggerx; j += 20) {
-        if (otherplayer.getX() > smallerx && otherplayer.getX() < biggerx && otherplayer.getY() >= slope * j * starty + 40 && otherplayer.getY() <= slope * j + starty - 40) {
-          otherplayer.setHealth(otherplayer.getHealth() - 3);
+        if (p.segmentsOverlap(smallerx+j-50, smallerx+j+50, p.getX(), p.getX()+p.getWidth()) && p.segmentsOverlap(smallery+k-50, smallery+k+50, p.getY(), p.getY()+p.getHeight())) {
+          p.setLives(p.getLives() - 2);
         }
+        k+=20*slope;
       }
     }
+  }
   }
 }

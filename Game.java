@@ -299,7 +299,7 @@ boolean gameOver = false;
           player2.add(new Ammo(playerTwo.getX() + 18, playerTwo.getY() + 6, 5, 5, 7, false, true));
             lastPlayer1Shot = System.currentTimeMillis();
           } else{
-          player2.add(new Ammo(playerTwo.getX() + 18, playerTwo.getY() + 6, 5, 5, 7, false));
+          player2.add(new Ammo(playerTwo.getX() + 18, playerTwo.getY() + 6, 5, 5, 5, false));
           lastPlayer2Shot = System.currentTimeMillis();
         }
         }
@@ -308,7 +308,7 @@ boolean gameOver = false;
           player2.add(new Ammo(playerTwo.getX() - 10, playerTwo.getY() + 6, 5, 5, -7,  false, true));
             lastPlayer1Shot = System.currentTimeMillis();
           } else{
-          player2.add(new Ammo(playerTwo.getX() - 10, playerTwo.getY() + 6, 5, 5, -7, false));
+          player2.add(new Ammo(playerTwo.getX() - 10, playerTwo.getY() + 6, 5, 5, -5, false));
           lastPlayer2Shot = System.currentTimeMillis();
         }
         }
