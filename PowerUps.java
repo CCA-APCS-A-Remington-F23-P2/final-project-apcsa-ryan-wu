@@ -32,14 +32,14 @@ public class PowerUps extends Player {
     // build a 2x4 metal wall in front of player
     if (player.getFaceRight()) {
       for (int i = 0; i < 4; i++) {
-        Game.addBlock(new Block(x + 35, y - 20 * i, "metal"));
-        Game.addBlock(new Block(x + 55, y - 20 * i, "metal"));
+        Game.addBlock(new Block(x + 35, y - 20 * i - 2, "metal"));
+        Game.addBlock(new Block(x + 55, y - 20 * i - 2, "metal"));
       }
     }
     if (!player.getFaceRight()) {
       for (int i = 0; i < 4; i++) {
-        Game.addBlock(new Block(x - 25, y - 20 * i, "metal"));
-        Game.addBlock(new Block(x - 45, y - 20 * i, "metal"));
+        Game.addBlock(new Block(x - 25, y - 20 * i - 2, "metal"));
+        Game.addBlock(new Block(x - 45, y - 20 * i - 2, "metal"));
       }
     }
   }
@@ -135,6 +135,7 @@ public class PowerUps extends Player {
       horizontal = true;
     if (horizontal == false) {
       player.setX(endx);
+      player.setY(endy);
       for (int i = 0; i < Game.getBlockSize(); i++) {
         Block b = Game.getBlocks(i);
         if (b.segmentsOverlap(smallerx, biggerx, b.getX(), b.getX() + 
