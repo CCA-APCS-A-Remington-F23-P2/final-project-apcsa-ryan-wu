@@ -20,6 +20,19 @@
 17 0 barrier
 18 0 barrier
 19 0 barrier
+20 0 barrier
+21 0 barrier
+22 0 barrier
+23 0 barrier
+24 0 barrier
+25 0 barrier
+26 0 barrier
+27 0 barrier
+28 0 barrier
+29 0 barrier
+30 0 barrier
+
+
 0 0 barrier
 0 1 barrier
 0 2 barrier

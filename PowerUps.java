@@ -162,6 +162,8 @@ public class PowerUps extends Player {
       - endx > 0)
         slope = 1;
       int k=smallery;
+      if(slope==-1)
+        k=biggery;
       for (int i = 0; i < Game.getBlockSize(); i++) {
         for (int j = smallerx; j < biggerx; j += 20) {
           Block b = Game.getBlocks(i);
@@ -177,6 +179,8 @@ public class PowerUps extends Player {
         k+=20*slope;
       }
       k=smallery;
+      if(slope==-1)
+        k=biggery;
       for (int j = smallerx; j < biggerx; j += 20) {
         if (p.segmentsOverlap(smallerx+j-50, smallerx+j+50, p.getX(), 
         p.getX()+p.getWidth()) && p.segmentsOverlap(smallery+k-50, 
